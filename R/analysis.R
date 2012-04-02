@@ -9,7 +9,7 @@
 #' data(fishbase) 
 #' freshwater <- habitatSearch("feshwater", fish.data)
 #' fish.data[freshwater]
-#'
+#' @details Depricated.  This functionality is provided by which_fish.
 #' @export
 habitatSearch <- function(keyword, fish.data){
   x <- sapply(fish.data, function(x) grep(keyword, x$habitat) )
@@ -51,7 +51,8 @@ familySearch <- function(family, fish.data){
 #' 
 #' @param keyword pattern to be used by grep
 #' @param using the type of search, one of: "trophic", "habitat", "lifecycle", 
-#'    "morphology","diagnostic", "distribution."  See examples.  
+#'    "morphology","diagnostic", "distribution", "ScientificName", "Genus",
+#'    "Family", "Class", "Order", or "size"  See examples.  
 #' @param fish.data the fishbase database fish.data or a subset
 #' @return a logical vector of length(fish.data) indicating the matches.
 #' @keywords utilities
@@ -69,7 +70,9 @@ familySearch <- function(family, fish.data){
 #' 
 #' @export
 which_fish <- function(keyword, using=c("trophic", "habitat", "lifecycle", 
-                       "morphology","diagnostic", "distribution"), fish.data){
+                       "morphology","diagnostic", "distribution",
+                       "ScientificName", "Genus", "Family",
+                       "Class", "Order", "size"), fish.data){
   using <- match.arg(using)
   sapply(fish.data, function(x) length(grep(keyword, x[[using]]))>0)
 }
@@ -119,7 +122,10 @@ getSize <- function(fish.data, value=c("length", "weight", "age")){
       z[i] <- y[i]    
     as.numeric(z[[value]])
   })
-  unlist(y)
+  out <- unlist(y)
+  species.names <- sapply(fish.data, `[[`, 'ScientificName')
+  names(out) <- gsub(" ", "_", species.names) # use underscores instead of spaces
+  out
 }
 
 
@@ -187,7 +193,10 @@ getDepth <- function(fish.data){
     names(ans) = c("shallow", "deep", "usual.shallow", "usual.deep")
     ans
   }
-  t(suppressWarnings(sapply(fish.data, depthfn)))
+  out <- t(suppressWarnings(sapply(fish.data, depthfn)))
+  species.names <- sapply(fish.data, `[[`, 'ScientificName')
+  rownames(out) <- gsub(" ", "_", species.names) # use underscores instead of spaces
+  out
 }
 
 
@@ -253,6 +262,9 @@ getQuantTraits <- function(fish.data){
     ans
   }
   # Apply to the data range, ignoring warnings due to missing data
-  t(suppressWarnings(sapply(fish.data, morph, simplify="array")))
+  out <- t(suppressWarnings(sapply(fish.data, morph, simplify="array")))
+  species.names <- sapply(fish.data, `[[`, 'ScientificName')
+  rownames(out) <- gsub(" ", "_", species.names) # use underscores instead of spaces
+  out
 }
 
