@@ -1,27 +1,21 @@
 #' A function to search for the occurances of any keyword in habitat description
 #' 
+#' deprecrated, see \code{which_fish}
 #' @param keyword pattern to be used by grep
 #' @param fish.data the fishbase database fish.data or a subset,
 #' @return a logical vector of length(fish.data) indicating the matches, that can 
 #'   be used to subset the full database in calls to other functions. 
 #' @keywords utilities
-#' @examples
-#' data(fishbase) 
-#' freshwater <- habitatSearch("feshwater", fish.data)
-#' fish.data[freshwater]
 #' @details Depricated.  This functionality is provided by which_fish.
-#' @export
-habitatSearch <- function(keyword, fish.data){
-  x <- sapply(fish.data, function(x) grep(keyword, x$habitat) )
-  x <- as.integer(x) # clean up data 
-  x[is.na(x)] <- 0   # cean up data
-  as.logical(x)
+habitatSearch <- function(keyword, fish.data=NULL){
+  which_fish(family, using="habitat", fish.data)
 }
 
 
 
 #' A function to find all fish that are members of a scientific Family 
 #' 
+#' deprecrated, see \code{which_fish}
 #' @param family The scientific family name.  Can include grep matching, see examples 
 #' @param fish.data the fishbase database or a subset
 #' @return a logical vector of length(fish.data) indicating the matches.
@@ -29,24 +23,11 @@ habitatSearch <- function(keyword, fish.data){
 #'   be used as an index, e.g. fish.data[goby], to return the matches or to
 #'   pass to another function.  See examples.  
 #' @keywords utilities
-#' @examples
-#' data(fishbase) 
-#' goby <- familySearch("Gobiidae", fish.data)
-#' labrid <- familySearch("(Labridae|Scaridae)", fish.data)
-#' ## Example 2
-#' # get all the labrids that are reefs 
-#' labrid.reef <- habitatSearch("reef", fish.data[labrid])
-#' # How many species are reef labrids:
-#' sum(labrid.reef)
-#' 
-#' @export
-familySearch <- function(family, fish.data){
-#  x <- sapply(fish.data, function(x) x$Family==family)
-  x <- sapply(fish.data, function(x) length(grep(family,x$Family)>1))
-  as.logical(x)
+familySearch <- function(family, fish.data=NULL){
+  which_fish(family, using="Family", fish.data)
 }
 
-#' A function to search for the occurances of any keyword in 
+#' which_fish is the the generic search function for fishbase
 #'  a variety of description types
 #' 
 #' @param keyword pattern to be used by grep
@@ -54,11 +35,13 @@ familySearch <- function(family, fish.data){
 #'    "morphology","diagnostic", "distribution", "ScientificName", "Genus",
 #'    "Family", "Class", "Order", or "size"  See examples.  
 #' @param fish.data the fishbase database fish.data or a subset
+#' @param path to cached copy of fishbase (optional, defaults to copy in package).
 #' @return a logical vector of length(fish.data) indicating the matches.
 #' @keywords utilities
 #' @examples
 #' data(fishbase) 
 #' invert <- which_fish("invertebrate|mollusk", using="trophic", fish.data)
+#' fish_names(fish.data[invert])
 #' sex_swap <- which_fish("change sex", using="lifecycle", fish.data)
 #' africa <- which_fish("Africa", using="distribution", fish.data)
 #' ## recall we can sub-set
@@ -67,21 +50,25 @@ familySearch <- function(family, fish.data){
 #' redfish  <- which_fish(" red ", "diagnostic", fish.data) 
 #' bluefish  <- which_fish(" blue ", "diagnostic", fish.data) 
 #' sum(redfish) > sum(bluefish)
+#' @seealso fish_names
 #' 
 #' @export
 which_fish <- function(keyword, using=c("trophic", "habitat", "lifecycle", 
                        "morphology","diagnostic", "distribution",
                        "ScientificName", "Genus", "Family",
-                       "Class", "Order", "size"), fish.data){
+                       "Class", "Order", "size"), fish.data=NULL, path=NULL){
+  if(is.null(fish.data))
+    fish.data <- loadCache(path=path)
   using <- match.arg(using)
   sapply(fish.data, function(x) length(grep(keyword, x[[using]]))>0)
 }
 
 
-#' A function to give the names of the matched fish 
+#' Return the scientific names, families, classes, or orders of the input data
 #' 
-#' @param name return the Scientific Name (default)? or Family, Class, or Order.
-#' @param fish.data the fishbase database fish.data or a subset,
+#' @param name return the Scientific Name or Family, Class, or Order.
+#' @param fish.data the fishbase database fish.data or a subset. Defaults to cached copy
+#' @param path to updated copy of the cache; optional.  
 #' @return the names of the matching fish.   
 #' @keywords utilities
 #' @examples
@@ -91,17 +78,20 @@ which_fish <- function(keyword, using=c("trophic", "habitat", "lifecycle",
 #' fish_names(fish.data[africa & sex_swap])
 #' 
 #' @export
-fish_names <- function(fish.data, name=c("ScientificName", "Family", "Class", "Order")){
+fish_names <- function(fish.data=NULL, name=c("ScientificName", "Family", "Class", "Order"), path=NULL){
+  if(is.null(fish.data))
+    fish.data <- loadCache(path=path)
   name <- match.arg(name)
   sapply(fish.data, function(x) x[[name]])
 }
 
-#' A function to return size information from fishbase data 
+#' Returns available size data of specified type (length, weight, or age) 
 #' 
 #' @param fish.data the fishbase database or a subset
 #' @param value the measure to return: maximum recorded length (cm), 
 #'   maximum weight (g), or maximum age (years). Defaults to length; many 
 #'   entries lack weight and age. 
+#' @param path to updated copy of the cache; optional.  
 #' @return a numeric vector of length(fish.data) with the values requested 
 #' @keywords utilities
 #' @examples
@@ -111,7 +101,9 @@ fish_names <- function(fish.data, name=c("ScientificName", "Family", "Class", "O
 #' nfish <- length(fish.data)
 #' 
 #' @export
-getSize <- function(fish.data, value=c("length", "weight", "age")){
+getSize <- function(fish.data=NULL, value=c("length", "weight", "age"), path=NULL){
+  if(is.null(fish.data))
+    fish.data <- loadCache(path=path)
   value <- match.arg(value)
   y <- sapply(fish.data, function(x){
      z <- c("length"= NA, "weight"=NA, "age"=NA)
@@ -129,7 +121,7 @@ getSize <- function(fish.data, value=c("length", "weight", "age")){
 }
 
 
-#' Return fish matching the search names 
+#' Returns the matching indices in the data given a list of species names
 #' 
 #' @param species a list of species names as "Genus_species" or "Genus species"
 #' @param fish.data the fishbase database or a subset
@@ -138,15 +130,18 @@ getSize <- function(fish.data, value=c("length", "weight", "age")){
 #' @return a logical vector of length(fish.data) indicating the matches, that can 
 #'   be used to subset the full database in calls to other functions. 
 #' @keywords utilities
+#' @param path to cached copy of fishbase (optional, defaults to copy in package).
 #' @examples
 #' ## The distribution of maximum depth in Arctic fishes
 #' data(fishbase)
 #' data(labridtree)
-#' myfish <- findSpecies(tree$tip.label, fish.data) 
+#' myfish <- findSpecies(labridtree$tip.label, fish.data) 
 #' getDepth(fish.data[myfish])
 #' 
 #' @export
-findSpecies <- function(species, fish.data){
+findSpecies <- function(species, fish.data=NULL, path=NULL){
+  if(is.null(fish.data))
+    fish.data <- loadCache(path=path)
   species<-gsub("_", " ", species)
   sapply(fish.data, function(x) x$ScientificName %in% species)
 }
@@ -155,9 +150,10 @@ findSpecies <- function(species, fish.data){
 
 
 
-#' Return available depth ranges
+#' Returns available depth range data
 #' 
 #' @param fish.data the fishbase database or a subset
+#' @param path to cached copy of fishbase (optional, defaults to copy in package).
 #' @return a matrix of traits by fish.  
 #'   Returns min-max depth, min-max usual depth
 #; @keywords utilities
@@ -169,7 +165,9 @@ findSpecies <- function(species, fish.data){
 #' hist(traits[, "deep"])
 #'
 #' @export
-getDepth <- function(fish.data){
+getDepth <- function(fish.data=NULL, path=NULL){
+  if(is.null(fish.data))
+    fish.data <- loadCache(path=path)
   depthfn <- function(fish){
     x <- fish$habitat
     if(is.null(x)) 
@@ -200,9 +198,10 @@ getDepth <- function(fish.data){
 }
 
 
-#' Return quantitative trait values from morphology data, if available
+#' Returns all quantitative trait values found in the morphology data
 #' 
 #' @param fish.data the fishbase database or a subset
+#' @param path to cached copy of fishbase (optional, defaults to copy in package).
 #' @return a matrix of traits by fish. Returns min-max numbers 
 #'   recorded for vertebrae, spines (anal and dorsal), and 
 #'   rays (anal and dorsal).  
@@ -214,8 +213,10 @@ getDepth <- function(fish.data){
 #' traits <- getQuantTraits(fish.data[redfish])
 #' hist(traits[, "min.anal.rays"])
 #' 
-#'@export
-getQuantTraits <- function(fish.data){
+#' @export
+getQuantTraits <- function(fish.data=NULL, path=NULL){
+  if(is.null(fish.data))
+    fish.data <- loadCache(path=path)
   morph <- function(x){
     str <- x$morphology
     if(is.null(str)) 
@@ -267,4 +268,36 @@ getQuantTraits <- function(fish.data){
   rownames(out) <- gsub(" ", "_", species.names) # use underscores instead of spaces
   out
 }
+
+#' Returns the FishBase reference id numbers matching a query. 
+#'
+#' @param using which entry type for the search
+#' @param fish.data the fishbase database or a subset
+#' @param path to cached copy of fishbase (optional, defaults to copy in package).
+#' @keywords utilities
+#' @examples
+#' a <- which_fish("invertebrates", "trophic")
+#' refs <- getRefs("trophic", fish.data[a])
+#' toprefs <- sort(table(unlist(refs)), decreasing=TRUE)
+#' @export
+getRefs <- function(using=c("trophic", "habitat", "lifecycle", 
+                    "morphology","diagnostic", "distribution",
+                    "ScientificName", "Genus", "Family",
+                    "Class", "Order", "size"), fish.data=NULL, path=NULL){
+  if(is.null(fish.data))
+    fish.data <- loadCache(path=path)
+  using <- match.arg(using)
+  sapply(fish.data, function(x){
+    extractMatches(x[[using]], "Ref. (\\d+)")
+  })
+}
+
+extractMatches <- function(data, pattern) {
+    start <-  gregexpr(pattern, data)[[1]]
+    stop  <-  start + attr(start, "match.length") - 1
+    if(-1 %in% start) {""} else {
+        mapply(substr, start, stop, MoreArgs = list(x = data))
+    }
+}    
+
 

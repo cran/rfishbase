@@ -1,9 +1,9 @@
 \docType{data}
-\name{tree}
-\alias{tree}
-\title{An example phylogeny of some labrids.}
+\name{labridtree}
+\alias{labridtree}
+\title{An example phylogeny of labrid fish}
 \description{
-  An example phylogeny of some labrids.
+  An example phylogeny of labrid fish
 }
 \references{
   Price, S. a, Wainwright, P. C., Bellwood, D. R.,
