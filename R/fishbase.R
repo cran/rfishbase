@@ -5,7 +5,7 @@
 
 
 
-#' A cached copy of extracted FishBase data, 03/2012.  
+#' A cached copy of extracted FishBase data, 14 Febuary 2013.  
 #' @name fish.data
 #' @docType data
 #' @references Froese, R. and D. Pauly. Editors. 2011.FishBase.
@@ -32,7 +32,8 @@ NULL
 #' and return the XML R object
 #' @param fish.id the id number used by fishbase, ranges 1:70000
 #'  though wiht many missing values
-#' @param curl curlHandle(), please store value to avoid repeated handshaking.  
+#' @param curl curlHandle(), please store value to avoid repeated handshaking. 
+#' @param server the index of the server to use.  1 is sinica (Tiawan), 2 is US.
 #' @return a list object with the contents of the major datatypes in the 
 #'   the fishbase database.  
 #' @details Typically this function will only be called internally by
@@ -44,10 +45,11 @@ NULL
 #' @examples \dontrun{ 
 #'   # NileTilapia <- fishbase("2")
 #' }
-fishbase <- function(fish.id, curl=getCurlHandle()){
-
+fishbase <- function(fish.id, curl=getCurlHandle(), server=2){
+  servers <- c("http://fishbase.sinica.edu.tw/", "http://www.fishbase.us/")
+  
   # Grab and parse page matching id
-  url <- paste("http://fishbase.sinica.edu.tw/",
+  url <- paste(servers[2],
                "maintenance/FB/showXML.php?identifier=FB-",
               fish.id, "&ProviderDbase=03", sep="")
   tt <- getURLContent(url, followlocation=TRUE, curl=curl)

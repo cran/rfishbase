@@ -1,9 +1,11 @@
+\docType{data}
 \name{fishbase}
 \alias{fishbase}
 \title{Query the XML page of fishbase given a fishbase id
 and return the XML R object}
+\format{<environment: 0x35ed8e0>}
 \usage{
-  fishbase(fish.id, curl = getCurlHandle())
+  fishbase
 }
 \arguments{
   \item{fish.id}{the id number used by fishbase, ranges
@@ -11,6 +13,9 @@ and return the XML R object}
 
   \item{curl}{curlHandle(), please store value to avoid
   repeated handshaking.}
+
+  \item{server}{the index of the server to use.  1 is
+  sinica (Tiawan), 2 is US.}
 }
 \value{
   a list object with the contents of the major datatypes in
@@ -32,5 +37,6 @@ and return the XML R object}
 \seealso{
   \code{\link{getData}} and \code{\link{updateCache}}.
 }
+\keyword{datasets}
 \keyword{internal}
 

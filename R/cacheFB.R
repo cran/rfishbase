@@ -31,15 +31,16 @@ updateCache <- function(path="."){
 #' @export
 loadCache <- function(path=NULL){
   if(is.null(path))
-    data(fishbase)
+  file <- system.file("data", "fishbase.rda", package="rfishbase")
   else {
   # load the most recent file from the cache
   files <- list.files(path) 
   copies <- grep("fishdata.Rdat", files)
   most_recent <- files[copies[length(copies)]]
   file=paste(path, "/", most_recent, sep="")
-  load(file)
   }
+  load(file, envir = fishbaseCache)
+  fish.data <- get("fish.data", envir = fishbaseCache)
   fish.data
 }
 
