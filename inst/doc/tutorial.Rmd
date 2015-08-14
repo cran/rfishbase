@@ -1,0 +1,13 @@
+---
+title: "rfishbase 2.0"
+author: "Carl Boettiger"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rfishbase 2.0}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+
