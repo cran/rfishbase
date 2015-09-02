@@ -4,7 +4,7 @@ Description: A programmatic interface to http://www.fishbase.org, re-written bas
              Access tables describing over 30,000 species of fish, their biology, ecology, morphology, and more.
              This package also supports experimental access to http://www.sealifebase.org data, which contains nearly
              200,000 species records for all types of aquatic life not covered by 'FishBase.'
-Version: 2.0.1
+Version: 2.0.2
 License: CC0
 Authors@R: c(person("Carl", "Boettiger", role = c("cre", "aut"), email = "cboettig@ropensci.org"),
              person("Scott", "Chamberlain", role = "aut", email = "scott@ropensci.org"),
@@ -19,11 +19,11 @@ Imports: dplyr (>= 0.4.0), lazyeval, httr (>= 1.0.0), tidyr, methods,
 Suggests: devtools, testthat, rmarkdown, knitr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2015-08-14 21:37:16 UTC; rstudio
+Packaged: 2015-09-01 20:26:51 UTC; cboettig
 Author: Carl Boettiger [cre, aut],
   Scott Chamberlain [aut],
   Duncan Temple Lang [aut],
   Peter Wainwright [aut]
 Maintainer: Carl Boettiger <cboettig@ropensci.org>
 Repository: CRAN
-Date/Publication: 2015-08-15 16:52:33
+Date/Publication: 2015-09-02 01:22:36
