@@ -9,6 +9,9 @@
 #' @details 
 #' For further information on fields returned, see:
 #' http://www.fishbase.org/manual/english/fishbasethe_synonyms_table.htm
+#' @importFrom httr GET user_agent 
+#' @importFrom dplyr bind_rows
+#' @export
 #' @examples
 #' \dontrun{
 #' # Query using a synonym:
@@ -22,17 +25,15 @@
 #'  species_info("Bolbometopon muricatum", fields="SpecCode")[[1]]
 #'  synonyms(5537)
 #'  }
-#'  @import httr dplyr
-#'  @export
 synonyms <- function(species_list, limit = 50, server = getOption("FISHBASE_API", FISHBASE_API), 
                      fields = c("SynGenus", "SynSpecies", "Valid", "Misspelling", 
-                                "ColStatus", "Synonymy", "Combination", "SpecCode",
+                                "Status", "Synonymy", "Combination", "SpecCode",
                                 "SynCode", "CoL_ID", "TSN", "WoRMS_ID")){
   
   
   dplyr::bind_rows(lapply(species_list, function(species){
     s <- parse_name(species)
-    resp <- GET(paste0(server, "/synonyms"), 
+    resp <- httr::GET(paste0(server, "/synonyms"), 
                 query = list(SynSpecies = s$species, 
                              SynGenus = s$genus, 
                              SpecCode = s$speccode,
