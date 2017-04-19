@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,9 +12,9 @@
 
 <meta name="author" content="Carl Boettiger" />
 
-<meta name="date" content="2016-07-21" />
+<meta name="date" content="2017-04-19" />
 
-<title>rfishbase 2.0</title>
+<title>The New RFishbase</title>
 
 
 
@@ -68,9 +68,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">rfishbase 2.0</h1>
+<h1 class="title toc-ignore">The New RFishbase</h1>
 <h4 class="author"><em>Carl Boettiger</em></h4>
-<h4 class="date"><em>2016-07-21</em></h4>
+<h4 class="date"><em>2017-04-19</em></h4>
 
 
 
@@ -80,6 +80,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>We welcome any feedback, issues or questions that users may encounter through our issues tracker on GitHub: [<a href="https://github.com/ropensci/rfishbase/issues" class="uri">https://github.com/ropensci/rfishbase/issues</a>].</p>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">remotes::<span class="kw">install_github</span>(<span class="st">&quot;ropensci/rfishbase&quot;</span>)</code></pre></div>
+<p>Or with base <code>install.packages</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;rfishbase&quot;</span>, 
                  <span class="dt">repos =</span> <span class="kw">c</span>(<span class="st">&quot;http://packages.ropensci.org&quot;</span>, <span class="st">&quot;http://cran.rstudio.com&quot;</span>), 
                  <span class="dt">type=</span><span class="st">&quot;source&quot;</span>)</code></pre></div>
@@ -128,10 +130,10 @@ fish</code></pre></div>
 1 fusiform / normal      R        NA     NA        0    -1    -1        -1
 2 fusiform / normal      R        NA     NA        0    -1    -1        -1
       DemersPelag     AnaCat MigratRef DepthRangeShallow DepthRangeDeep
-1 pelagic-neritic anadromous     51243                 0             NA
+1 pelagic-neritic anadromous     51243                 0             28
 2   benthopelagic anadromous     51243                 0            200
   DepthRangeRef DepthRangeComShallow DepthRangeComDeep DepthComRef
-1            NA                   NA                10          NA
+1        101587                    1                 2      101587
 2         50550                   NA                NA          NA
   LongevityWild LongevityWildRef LongevityCaptive LongevityCapRef
 1            38            32682             10.3             274
@@ -179,7 +181,7 @@ fish</code></pre></div>
 1      NA  0.5          0       2 1990-10-17T00:00:00.000Z       10
 2      NA  0.5          0       2 1990-10-17T00:00:00.000Z     2291
               DateModified Expert              DateChecked TS SpecCode
-1 2013-09-13T00:00:00.000Z     97 2003-01-03T00:00:00.000Z NA      238
+1 2015-05-12T00:00:00.000Z     97 2003-01-03T00:00:00.000Z NA      238
 2 2014-12-16T00:00:00.000Z     97 2003-01-15T00:00:00.000Z NA      239</code></pre>
 <p>Most tables contain many fields. To avoid overly cluttering the screen, <code>rfishbase</code> displays tables as <code>data_frame</code> objects from the <code>dplyr</code> package. These act just like the familiar <code>data.frames</code> of base R except that they print to the screen in a more tidy fashion. Note that columns that cannot fit easily in the display are summarized below the table. This gives us an easy way to see what fields are available in a given table. For instance, from this table we may only be interested in the <code>PriceCateg</code> (Price category) and the <code>Vulnerability</code> of the species. We can repeat the query for our full species list, asking for only these fields to be returned:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">species</span>(fish, <span class="dt">fields=</span><span class="kw">c</span>(<span class="st">&quot;SpecCode&quot;</span>, <span class="st">&quot;PriceCateg&quot;</span>, <span class="st">&quot;Vulnerability&quot;</span>))
@@ -200,6 +202,11 @@ dat</code></pre></div>
 <p>Unfortunately identifying what fields come from which tables is often a challenge. Each summary page on fishbase.org includes a list of additional tables with more information about species ecology, diet, occurrences, and many other things. <code>rfishbase</code> provides functions that correspond to most of these tables.</p>
 <p>Because <code>rfishbase</code> accesses the back end database, it does not always line up with the web display. Frequently <code>rfishbase</code> functions will return more information than is available on the web versions of the these tables. Some information found on the summary homepage for a species is not available from the <code>species</code> summary function, but must be extracted from a different table. For instance, the species <code>Resilience</code> information is not one of the fields in the <code>species</code> summary table, despite appearing on the species homepage of fishbase.org. To discover which table this information is in, we can use the special <code>rfishbase</code> function <code>list_fields</code>, which will list all tables with a field matching the query string:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">list_fields</span>(<span class="st">&quot;Resilience&quot;</span>)</code></pre></div>
+<pre><code># A tibble: 2 × 2
+  table_name      column_name
+       &lt;chr&gt;            &lt;chr&gt;
+1     stocks       Resilience
+2     stocks ResilienceRemark</code></pre>
 <p>This shows us that this information appears on the <code>stocks</code> table. Working in R, it is easy to query this additional table and combine the results with the data we have collected so far:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">resil &lt;-<span class="st"> </span><span class="kw">stocks</span>(fish, <span class="dt">fields=</span><span class="st">&quot;Resilience&quot;</span>)
 <span class="kw">merge</span>(dat, resil)</code></pre></div>
@@ -226,13 +233,21 @@ dat</code></pre></div>
 <div id="sealifebase" class="section level2">
 <h2>SeaLifeBase</h2>
 <p>The FishBase team has also created the SeaLifeBase project, which seeks to provide much the same data and layout as fishbase.org and the fishbase schema, but covering all sea life apart from the finfish covered in FishBase. The rOpenSci team has created a pilot API for SeaLifeBase as well. Most of the functions in <code>rfishbase</code> can be used directly to query SeaLifeBase data by explicitly specifying the <code>server</code> argument to use the SeaLifeBase API at <code>http://fishbase.ropensci.org/sealifebase</code>, like so:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">FISHBASE_API =</span> <span class="st">&quot;http://fishbase.ropensci.org/sealifebase&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">FISHBASE_API =</span> <span class="st">&quot;https://fishbase.ropensci.org/sealifebase&quot;</span>)
 kingcrab &lt;-<span class="st"> </span><span class="kw">common_to_sci</span>(<span class="st">&quot;king crab&quot;</span>)
 kingcrab</code></pre></div>
+<pre><code>[1] &quot;Limulus polyphemus&quot;         &quot;Paralithodes camtschaticus&quot;
+[3] &quot;Lithodes ferox&quot;            </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">species</span>(kingcrab)
 <span class="kw">ecology</span>(kingcrab)</code></pre></div>
 <p>Set the API back to <code>fishbase</code> for finfish data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">FISHBASE_API =</span> <span class="st">&quot;http://fishbase.ropensci.org&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">FISHBASE_API =</span> <span class="st">&quot;https://fishbase.ropensci.org&quot;</span>)</code></pre></div>
+<p>Alternately, all functions can take the explicit argument <code>server</code> to indicate which database to use, like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kingcrab &lt;-<span class="st"> </span><span class="kw">common_to_sci</span>(<span class="st">&quot;king crab&quot;</span>, <span class="dt">server =</span> <span class="st">&quot;https://fishbase.ropensci.org/sealifebase&quot;</span>)
+kingcrab</code></pre></div>
+<pre><code>[1] &quot;Limulus polyphemus&quot;         &quot;Paralithodes camtschaticus&quot;
+[3] &quot;Lithodes ferox&quot;            </code></pre>
+<p>This supercedes the value set in <code>options()</code> and is the preferred method when using both databases in a single script.</p>
 </div>
 
 

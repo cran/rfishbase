@@ -11,7 +11,7 @@ species_names(codes, server = getOption("FISHBASE_API", FISHBASE_API),
 \arguments{
 \item{codes}{a vector of speccodes (e.g. column from a table)}
 
-\item{server}{base URL to the FishBase API (by default). For SeaLifeBase, use http://fishbase.ropensci.org/sealifebase}
+\item{server}{base URL to the FishBase API (by default). For SeaLifeBase, use https://fishbase.ropensci.org/sealifebase}
 
 \item{all_taxa}{the taxa table, usually loaded by default}
 }
@@ -21,4 +21,3 @@ A character vector of species names for the SpecCodes
 \description{
 returns species names given FishBase's SpecCodes
 }
-

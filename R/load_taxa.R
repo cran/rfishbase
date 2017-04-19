@@ -1,8 +1,5 @@
 
 
-## Create an environment to cache the full speices table
-rfishbase <- new.env(hash = TRUE)
-
 FISHBASE_API <- "https://fishbase.ropensci.org"
 SEALIFEBASE_API <- "https://fishbase.ropensci.org/sealifebase"
 
@@ -18,9 +15,9 @@ SEALIFEBASE_API <- "https://fishbase.ropensci.org/sealifebase"
 load_taxa <- function(update = FALSE, cache = TRUE, server = getOption("FISHBASE_API", FISHBASE_API), limit = 5000L){
   
   ## Load the correct taxa table based on the server setting
-  if(server == FISHBASE_API){
+  if(grepl("https*://fishbase.ropensci.org$", server)){
     cache_name <- "fishbase"
-  } else if(server == SEALIFEBASE_API){
+  } else if(grepl("https*://fishbase.ropensci.org/sealifebase", server)){
     cache_name <- "sealifebase"
   } else {
     warning("Did not recognize API, assuming it is fishbase")
@@ -28,13 +25,7 @@ load_taxa <- function(update = FALSE, cache = TRUE, server = getOption("FISHBASE
     
   }
   
-  # First, try to load from cache
-  all_taxa <- mget(cache_name, 
-                   envir = rfishbase, 
-                   ifnotfound = list(NULL))$all_taxa
   
-  if(is.null(all_taxa)){
-    
     if(update){
       
       #limit the limit to avoid uneccesary (empty) calls
@@ -66,16 +57,13 @@ load_taxa <- function(update = FALSE, cache = TRUE, server = getOption("FISHBASE
       all_taxa <- all_taxa[-drop]
       
       }
-      if(cache){ 
-        assign(cache_name, all_taxa, envir=rfishbase)  
-      }
-    } else {
       
+    } else {
       data(list = cache_name, package="rfishbase", envir = environment())
       all_taxa <- mget(cache_name, envir = environment())[[1]]
     }
     
-  }  
+   
   all_taxa
 }
 
@@ -104,6 +92,7 @@ NULL
 
 
 ## Code to update the package cache:
-# fishbase <- load_taxa(update = TRUE)
+# fishbase <- load_taxa(update = TRUE, limit = 35000)
+# sealifebase <- load_taxa(update=TRUE, server = "https://fishbase.ropensci.org/sealifebase", limit = 120000)
 # save("fishbase", file = "data/fishbase.rda", compress = "xz")
-
+# save("sealifebase", file = "data/sealifebase.rda", compress = "xz")

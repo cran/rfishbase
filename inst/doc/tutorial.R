@@ -2,6 +2,9 @@
 knitr::opts_chunk$set(warning=FALSE, comment=NA)
 
 ## ----message=FALSE, warning=FALSE, results="hide", eval=FALSE------------
+#  remotes::install_github("ropensci/rfishbase")
+
+## ----message=FALSE, warning=FALSE, results="hide", eval=FALSE------------
 #  install.packages("rfishbase",
 #                   repos = c("http://packages.ropensci.org", "http://cran.rstudio.com"),
 #                   type="source")
@@ -30,22 +33,26 @@ species(fish[1:2])
 dat <- species(fish, fields=c("SpecCode", "PriceCateg", "Vulnerability"))
 dat
 
-## ----eval=FALSE----------------------------------------------------------
-#  list_fields("Resilience")
+## ------------------------------------------------------------------------
+list_fields("Resilience")
 
 ## ------------------------------------------------------------------------
 resil <- stocks(fish, fields="Resilience")
 merge(dat, resil)
 
-## ----eval=FALSE----------------------------------------------------------
-#  options(FISHBASE_API = "http://fishbase.ropensci.org/sealifebase")
-#  kingcrab <- common_to_sci("king crab")
-#  kingcrab
+## ------------------------------------------------------------------------
+options(FISHBASE_API = "https://fishbase.ropensci.org/sealifebase")
+kingcrab <- common_to_sci("king crab")
+kingcrab
 
 ## ----eval=FALSE----------------------------------------------------------
 #  species(kingcrab)
 #  ecology(kingcrab)
 
 ## ------------------------------------------------------------------------
-options(FISHBASE_API = "http://fishbase.ropensci.org")
+options(FISHBASE_API = "https://fishbase.ropensci.org")
+
+## ------------------------------------------------------------------------
+kingcrab <- common_to_sci("king crab", server = "https://fishbase.ropensci.org/sealifebase")
+kingcrab
 
