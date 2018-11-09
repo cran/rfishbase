@@ -6,27 +6,33 @@ Description: A programmatic interface to <http://www.fishbase.org>, re-written
     supports experimental access to <http://www.sealifebase.org> data, which contains
     nearly 200,000 species records for all types of aquatic life not covered by
     'FishBase.'
-Version: 2.1.2
+Version: 3.0.0
+Encoding: UTF-8
 License: CC0
-Authors@R: c(person("Carl", "Boettiger", role = c("cre", "aut"), email = "cboettig@ropensci.org"),
-             person("Scott", "Chamberlain", role = "aut", email = "scott@ropensci.org"),
+Authors@R: c(person("Carl", "Boettiger", 
+                    role = c("cre", "aut"), 
+                    email = "cboettig@gmail.com", ,
+                   comment = c(ORCID = "0000-0002-1642-628X")),
+             person("Scott", "Chamberlain", role = "aut", 
+                    email = "scott@ropensci.org", 
+                    comment = c(ORCID="0000-0003-1444-9135")),
              person("Duncan", "Temple Lang", role="aut"), 
              person("Peter", "Wainwright", role="aut"))
 URL: https://github.com/ropensci/rfishbase
 BugReports: https://github.com/ropensci/rfishbase/issues
 LazyData: true
 Depends: R (>= 3.0)
-Imports: dplyr (>= 0.4.0), lazyeval, httr (>= 1.0.0), tidyr, methods,
-        utils
+Imports: dplyr, purrr, methods, utils, memoise, readr, rlang, magrittr,
+        stringr
 Suggests: devtools, testthat, rmarkdown, knitr
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 NeedsCompilation: no
-Packaged: 2017-04-19 19:22:15 UTC; rstudio
-Author: Carl Boettiger [cre, aut],
-  Scott Chamberlain [aut],
+Packaged: 2018-11-09 03:03:47 UTC; rstudio
+Author: Carl Boettiger [cre, aut] (<https://orcid.org/0000-0002-1642-628X>),
+  Scott Chamberlain [aut] (<https://orcid.org/0000-0003-1444-9135>),
   Duncan Temple Lang [aut],
   Peter Wainwright [aut]
-Maintainer: Carl Boettiger <cboettig@ropensci.org>
+Maintainer: Carl Boettiger <cboettig@gmail.com>
 Repository: CRAN
-Date/Publication: 2017-04-19 20:14:06 UTC
+Date/Publication: 2018-11-09 17:10:03 UTC
