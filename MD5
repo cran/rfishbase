@@ -1,12 +1,12 @@
-bc15e5fa43ac63ebb25eb5e640d3b36b *DESCRIPTION
-1666f35c59e50b1103bbb0c23a58f474 *NAMESPACE
-50302589833646ca1a0f4b24e3727f2f *NEWS.md
-5e3d629118167a633c2c281edb861762 *R/00-endpoint.R
+c84022147850be0ee40b58045ffd2115 *DESCRIPTION
+f853cbd8ccde1bcede67647326de792b *NAMESPACE
+8adbe77c36abf33556bc7f2196da2c88 *NEWS.md
+bee741097f563503ac816616c74ab913 *R/00-endpoint.R
 34b993b2b926fee645b15806cb82778b *R/brains.R
 0f2ed5c7c525741e48125efbbe75122a *R/common_names.R
 52c339d0d52b01b16e2867c395d80eb6 *R/distribution.R
 dea76d12be88a2feef88d20e342d2c31 *R/docs.R
-1f5898b863b921ede17886a6d5b15019 *R/fb_tbl.R
+c00306fb0b2bb2103ff3e2817879a958 *R/fb_tbl.R
 82b82bb82e785bce68d68f990d8a3937 *R/fishbase.R
 9ef567fe306e6e161ce5f4b6f0f0acbc *R/list_fields.R
 13d06f6e6e12b6eba0ea6f7dd6428f6f *R/load_taxa.R
@@ -20,9 +20,9 @@ bb9445bf9a3c7c9fb24e85e6b6267cda *R/species_names.R
 d018a290e5a7d978c238f0620904352f *R/synonyms.R
 429d2e00568d5b7edecf77b47c31a533 *R/sysdata.rda
 69e380b52af0087f8641502ec53f27e5 *R/taxonomy.R
-b6c7faa47e52c05366c136344eb28a7a *R/trophic_ecology.R
+6e12687e92922a30de5016e0f18bfd77 *R/trophic_ecology.R
 0172174c725e101bb457bf099a36fd14 *R/zzz.R
-d67525d386187e12f0db25388332172e *README.md
+4cacbc42ef00d38da6677c1a2fb38023 *README.md
 2c3737c9f53a6338e34485714ca639e9 *build/vignette.rds
 cd59a5f01dfe56514e59eeb29e6941e7 *data/datalist
 7344a352735d5b881353ff69990d4a6b *data/fields.R
@@ -31,7 +31,7 @@ cd59a5f01dfe56514e59eeb29e6941e7 *data/datalist
 a430ea6a8cb5fa8d68bf590abb4cf62a *inst/CITATION
 1c5a68c5c1245f73d26f428206aa386a *inst/doc/tutorial.R
 eb268a6b1b4522534d6b3efdf35d4fc4 *inst/doc/tutorial.Rmd
-c873ab74f6e17cebe15a2342e03b64bc *inst/doc/tutorial.html
+de1024a56b94899db0c192e6fdd7ff98 *inst/doc/tutorial.html
 3c9c2bb8e055e8d7144703431e2c9b15 *inst/examples/length-weight.Rmd
 753d9ead9b0b9be3b73b18c1e54ef279 *inst/extdata/abnorm.csv
 09098837cc26af79eedf9f518635f64d *inst/extdata/abnormref.csv
@@ -223,6 +223,7 @@ d22dac429ac2baac41b8667f9e458956 *man/c_code.Rd
 5675b6a9bb87e6d2468c8b5f92cd9386 *man/countrysub.Rd
 c21500a2a9eaf2a1e0228e0ecbd1246b *man/countrysubref.Rd
 ad704e771c2e8d6202f812c4dfa2d80b *man/diet.Rd
+cea8170d819604c8127e044eea1084e4 *man/diet_items.Rd
 b817008f17d9b34b5b27ee69a95d19c5 *man/distribution.Rd
 1455e9fbd9519cfc8887a9ea70a928d4 *man/docs.Rd
 4392ebd2a3beb3d1b78d7cea916c063d *man/ecology.Rd
@@ -282,4 +283,5 @@ d3aa003f24c3e889b70475ea6d0eb50a *tests/testthat/test_load_taxa.R
 6f2d15cad0f984a35694c66dfb860193 *tests/testthat/test_species.R
 55743c1d8ae3485e71fc7b369f50b550 *tests/testthat/test_species_list.R
 d91c906e7c7328c776561c18e04f8823 *tests/testthat/test_synonyms.R
+38cf8b3f6ee79a3f1cd651927b94e014 *tests/testthat/test_trophic_ecology.R
 eb268a6b1b4522534d6b3efdf35d4fc4 *vignettes/tutorial.Rmd
