@@ -1,11 +1,14 @@
 ## ----include=FALSE-------------------------------------------------------
 knitr::opts_chunk$set(warning=FALSE, comment=NA)
+Sys.setenv(GITHUB_TOKEN=paste0("b2b7441d", "aeeb010b", "1df26f1f6", "0a7f1ed", 
+                               "c485e443"))
 
 ## ----message=FALSE, warning=FALSE, results="hide", eval=FALSE------------
 #  remotes::install_github("ropensci/rfishbase")
 
 ## ----message=FALSE, warning=FALSE, results="hide"------------------------
 library("rfishbase")
+library("dplyr") # convenient but not required
 
 ## ------------------------------------------------------------------------
 fish <- c("Oreochromis niloticus", "Salmo trutta")
@@ -35,10 +38,16 @@ list_fields("Resilience")
 stocks(trout$Species, fields=c("Species", "Resilience", "StockDefs"))
 
 ## ------------------------------------------------------------------------
-Sys.setenv(FISHBASE_VERSION="17.07")
+available_releases()
 
 ## ------------------------------------------------------------------------
-load_taxa(server="sealifebase")
+options(FISHBASE_VERSION="19.04")
+
+## ------------------------------------------------------------------------
+sealife <- load_taxa(server="sealifebase")
+
+## ------------------------------------------------------------------------
+sealife %>% filter(Class == "Gastropoda")
 
 ## ------------------------------------------------------------------------
 species(server="sealifebase")

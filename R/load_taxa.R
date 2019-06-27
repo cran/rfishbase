@@ -168,7 +168,7 @@ slb_taxa_table <- function(server){
 #' @name fishbase
 #' @docType data
 #' @author Carl Boettiger \email{carl@@ropensci.org}
-#' @references \url{FishBase.org}
+#' @references \url{http://fishbase.org}
 #' @keywords data
 NULL
 
@@ -180,7 +180,7 @@ NULL
 #' @name sealifebase
 #' @docType data
 #' @author Carl Boettiger \email{carl@@ropensci.org}
-#' @references \url{www.sealifebase.org}
+#' @references \url{http://www.sealifebase.org}
 #' @keywords data
 NULL
 

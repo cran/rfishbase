@@ -9,66 +9,10 @@ status](https://ci.appveyor.com/api/projects/status/decpqq5s57b7b0t6/branch/mast
 checks](https://cranchecks.info/badges/worst/rfishbase)](https://cranchecks.info/pkgs/rfishbase)
 [![Coverage
 status](https://codecov.io/gh/ropensci/rfishbase/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/rfishbase?branch=master)
-[![Onboarding](https://badges.ropensci.org/137_status.svg)](https://github.com/ropensci/onboarding/issues/137)
+[![Onboarding](http://badges.ropensci.org/137_status.svg)](https://github.com/ropensci/onboarding/issues/137)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rfishbase)](https://cran.r-project.org/package=rfishbase)
 [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/rfishbase)](https://github.com/metacran/cranlogs.app)
-
-<details>
-
-<summary><strong>FishBase NEEDS YOUR HELP\!</strong></summary> Dear
-FishBase Users,
-
-FishBase needs help and I am writing to you because you either have at
-one point or another requested data to be extracted from FishBase for
-your own research purposes or have contributed your own data to
-FishBase.
-
-One of the FishBase funders has had to reduce its commitment and as a
-result, there is a US$200,000 gap in the FishBase 2018/2019 budget,
-which will result in forced unpaid leave of key staff with direct
-consequences for the constant updating and growth of FishBase, a
-resource on which many of us rely.
-
-Many of us use FishBase regularly in our work given it provides
-important data on distribution, traits etc. Indeed, these data are so
-valuable that FishBase receives over 700,000 unique visits per month and
-underpins key scientific breakthroughs such as the Nature paper on rates
-of evolution \[it’s slower in the tropics\!\] (see Nature (see
-<https://www.nature.com/articles/d41586-018-05575-2> and
-<https://www.facebook.com/FishBase/posts/1885134558216592>).
-
-Key about FishBase is that it is free to everyone in the world,
-regardless of whether their institutions can afford journal
-subscriptions.
-
-FishBase co-founder Daniel Pauly once said “sending a bibliography is
-like providing cookbooks in a famine” and it has been the underpinning
-ethos of FishBase to make information available equally, regardless of
-where one works.
-
-So for nearly 30 years, FishBase (www.fishbase.org), with its team of
-biologists and programmers has done just that, while constantly
-improving and expanding this valued resource.
-
-But FishBase needs our help now. So, when you are next online on
-FishBase and see the donate request pop up, please donate at least $25.
-That’s one bottle of good VQA wine in Canada or half a carton of decent
-beer in Australia, 3 packs of organic Hess avocados from Loblaws or 6
-latte grandes at Starbucks. If you drink more beer, use more avocado on
-your toast or are caffeine dependent, please consider a larger donation.
-IF EVERY MARINE RESEARCHER GETS ON BOARD, we can make a major
-contribution to FishBase. Imagine if you had to pay to access this type
-of information.
-
-It’s time to pay it forward\!
-
-Thank you for your consideration and we all look forward to a flood of
-world-wide support to FishBase.
-
-</details>
-
-<br>
 
 Welcome to `rfishbase 3.0`. This package is the third rewrite of the
 original `rfishbase` package described in [Boettiger et al.
@@ -145,7 +89,7 @@ trout <- common_to_sci("trout")
 trout
 ```
 
-    # A tibble: 279 x 4
+    # A tibble: 306 x 4
        Species                   ComName              Language SpecCode
        <chr>                     <chr>                <chr>       <dbl>
      1 Salmo obtusirostris       Adriatic trout       English      6210
@@ -153,12 +97,12 @@ trout
      3 Schizopyge niger          Alghad snowtrout     English     24454
      4 Salvelinus fontinalis     American brook trout English       246
      5 Salmo trutta              Amu-Darya trout      English       238
-     6 Oncorhynchus apache       Apache Trout         English      2687
-     7 Oncorhynchus apache       Apache trout         English      2687
-     8 Plectropomus areolatus    Apricot trout        English      6082
-     9 Salmo trutta              Aral Sea Trout       English       238
-    10 Salmo trutta              Aral trout           English       238
-    # … with 269 more rows
+     6 Salmo kottelati           Antalya trout        English     67602
+     7 Oncorhynchus apache       Apache Trout         English      2687
+     8 Oncorhynchus apache       Apache trout         English      2687
+     9 Plectropomus areolatus    Apricot trout        English      6082
+    10 Salmo trutta              Aral Sea Trout       English       238
+    # … with 296 more rows
 
 Note that there is no need to validate names coming from `common_to_sci`
 or `species_list`, as these will always return valid names.
@@ -181,33 +125,33 @@ columns are variables (fields).
 species(trout$Species)
 ```
 
-    # A tibble: 279 x 98
+    # A tibble: 306 x 100
        SpecCode Species SpeciesRefNo Author FBname PicPreferredName
           <dbl> <chr>          <dbl> <chr>  <chr>  <chr>           
      1     6210 Salmo …        59043 (Heck… Adria… Saobt_u0.jpg    
      2     8705 Schizo…         4832 (Gray… Snowt… Scric_u1.jpg    
      3    24454 Schizo…         4832 (Heck… Algha… <NA>            
-     4      246 Salvel…         5723 (Mitc… Brook… Safon_u4.jpg    
+     4      246 Salvel…        86798 (Mitc… Brook… Safon_u4.jpg    
      5      238 Salmo …         4779 Linna… Sea t… Satru_u2.jpg    
-     6     2687 Oncorh…         5723 (Mill… Apach… Onapa_u0.jpg    
+     6    67602 Salmo …        99540 Turan… Antal… Sakot_m0.jpg    
      7     2687 Oncorh…         5723 (Mill… Apach… Onapa_u0.jpg    
-     8     6082 Plectr…         5222 (R<fc… Squar… Plare_u4.jpg    
-     9      238 Salmo …         4779 Linna… Sea t… Satru_u2.jpg    
+     8     2687 Oncorh…         5723 (Mill… Apach… Onapa_u0.jpg    
+     9     6082 Plectr…         5222 (R<fc… Squar… Plare_u4.jpg    
     10      238 Salmo …         4779 Linna… Sea t… Satru_u2.jpg    
-    # … with 269 more rows, and 92 more variables: PicPreferredNameM <chr>,
+    # … with 296 more rows, and 94 more variables: PicPreferredNameM <chr>,
     #   PicPreferredNameF <chr>, PicPreferredNameJ <chr>, FamCode <dbl>,
     #   Subfamily <chr>, GenCode <dbl>, SubGenCode <dbl>, BodyShapeI <chr>,
     #   Source <chr>, AuthorRef <lgl>, Remark <chr>, TaxIssue <dbl>,
     #   Fresh <dbl>, Brack <dbl>, Saltwater <dbl>, DemersPelag <chr>,
-    #   AnaCat <chr>, MigratRef <dbl>, DepthRangeShallow <dbl>,
-    #   DepthRangeDeep <dbl>, DepthRangeRef <dbl>, DepthRangeComShallow <dbl>,
-    #   DepthRangeComDeep <dbl>, DepthComRef <dbl>, LongevityWild <dbl>,
-    #   LongevityWildRef <dbl>, LongevityCaptive <dbl>, LongevityCapRef <dbl>,
-    #   Vulnerability <dbl>, Length <dbl>, LTypeMaxM <chr>,
-    #   LengthFemale <dbl>, LTypeMaxF <chr>, MaxLengthRef <dbl>,
-    #   CommonLength <dbl>, LTypeComM <chr>, CommonLengthF <dbl>,
-    #   LTypeComF <chr>, CommonLengthRef <dbl>, Weight <dbl>,
-    #   WeightFemale <dbl>, MaxWeightRef <dbl>, Pic <chr>,
+    #   Amphibious <lgl>, AmphibiousRef <lgl>, AnaCat <chr>, MigratRef <dbl>,
+    #   DepthRangeShallow <dbl>, DepthRangeDeep <dbl>, DepthRangeRef <dbl>,
+    #   DepthRangeComShallow <dbl>, DepthRangeComDeep <dbl>,
+    #   DepthComRef <dbl>, LongevityWild <dbl>, LongevityWildRef <dbl>,
+    #   LongevityCaptive <dbl>, LongevityCapRef <dbl>, Vulnerability <dbl>,
+    #   Length <dbl>, LTypeMaxM <chr>, LengthFemale <dbl>, LTypeMaxF <chr>,
+    #   MaxLengthRef <dbl>, CommonLength <dbl>, LTypeComM <chr>,
+    #   CommonLengthF <dbl>, LTypeComF <chr>, CommonLengthRef <dbl>,
+    #   Weight <dbl>, WeightFemale <dbl>, MaxWeightRef <dbl>, Pic <chr>,
     #   PictureFemale <chr>, LarvaPic <chr>, EggPic <chr>,
     #   ImportanceRef <dbl>, Importance <chr>, PriceCateg <chr>,
     #   PriceReliability <chr>, Remarks7 <chr>, LandingStatistics <chr>,
@@ -239,7 +183,7 @@ dat <- species(trout$Species, fields=c("Species", "PriceCateg", "Vulnerability")
 dat
 ```
 
-    # A tibble: 279 x 3
+    # A tibble: 306 x 3
        Species                   PriceCateg Vulnerability
        <chr>                     <chr>              <dbl>
      1 Salmo obtusirostris       very high           47.0
@@ -247,12 +191,12 @@ dat
      3 Schizopyge niger          unknown             46.8
      4 Salvelinus fontinalis     very high           43.4
      5 Salmo trutta              very high           60.0
-     6 Oncorhynchus apache       very high           53.8
+     6 Salmo kottelati           <NA>                33.7
      7 Oncorhynchus apache       very high           53.8
-     8 Plectropomus areolatus    very high           57.0
-     9 Salmo trutta              very high           60.0
+     8 Oncorhynchus apache       very high           53.8
+     9 Plectropomus areolatus    very high           30.3
     10 Salmo trutta              very high           60.0
-    # … with 269 more rows
+    # … with 296 more rows
 
 Alternatively, just subset the table using the standard column selection
 in base R (`[[`) or `dplyr::select`.
@@ -293,39 +237,49 @@ can then request this data from the stocks table:
 stocks(trout$Species, fields=c("Species", "Resilience", "StockDefs"))
 ```
 
-    # A tibble: 380 x 3
+    # A tibble: 408 x 3
        Species           Resilience StockDefs                                  
        <chr>             <chr>      <chr>                                      
      1 Salmo obtusirost… Medium     Europe:  Adriatic basin in Krka, Jardo, Vr…
      2 Schizothorax ric… Medium     Asia:  Himalayan region of India, Sikkim a…
      3 Schizopyge niger  Medium     Asia:  Kashmir Valley in India and Azad Ka…
-     4 Salvelinus fonti… Medium     North America:  most of eastern Canada fro…
-     5 Salmo trutta      High       Europe and Asia:  Atlantic, North, White a…
+     4 Salvelinus fonti… Medium     North America:  native to most of eastern …
+     5 Salmo trutta      Medium     Europe and Asia:  Atlantic, North, White a…
      6 Salmo trutta      <NA>       <i>Salmo trutta aralensis</i>:  Asia:  end…
      7 Salmo trutta      Medium     <i>Salmo trutta fario</i>:  Northeast  Atl…
      8 Salmo trutta      Low        "<i>Salmo trutta lacustris</i>\t:  Europe:…
      9 Salmo trutta      <NA>       "<i>Salmo trutta oxianus</i>\t:  Asia:  Am…
     10 Salmo trutta      <NA>       <i>Salmo trutta aralensis</i>:  Asia:  Ara…
-    # … with 370 more rows
+    # … with 398 more rows
 
 ## Version stability
 
-`rfishbase` relies on periodic cache releases. The current database
-release is `17.07` (i.e. dating from July 2017). Set the version of
-FishBase you wish to access by setting the environmental variable:
+`rfishbase` relies on periodic cache releases. By default `rfishbase`
+will access the latest available release. Note that releases are roughly
+semi-annual and may not match the live version at Fishbase.org. You can
+view available releases with:
 
 ``` r
-Sys.setenv(FISHBASE_VERSION="17.07")
+available_releases()
+```
+
+    [1] "19.04" "18.1"  "18.07" "17.07"
+
+and you can set the version of FishBase you wish to access by setting
+the environmental variable:
+
+``` r
+options(FISHBASE_VERSION="19.04")
 ```
 
 Note that the same version number applies to both the `fishbase` and
-`sealifebase` data. Stay tuned for new releases.
+`sealifebase` data.
 
 ## SeaLifeBase
 
-SeaLifeBase.org is maintained by the same organization and largely
-parallels the database structure of Fishbase. As such, almost all
-`rfishbase` functions can instead be instructed to address the
+SeaLifeBase is maintained by the same organization and largely parallels
+the database structure of Fishbase. As such, almost all `rfishbase`
+functions can instead be instructed to address the
 
 We can begin by getting the taxa table for sealifebase:
 
@@ -346,7 +300,7 @@ Let’s look at some Gastropods:
 sealife %>% filter(Class == "Gastropoda")
 ```
 
-    # A tibble: 19,473 x 9
+    # A tibble: 19,479 x 9
        SpecCode Species    Genus  Subfamily Family  Order  Class Phylum Kingdom
           <dbl> <chr>      <chr>  <chr>     <chr>   <chr>  <chr> <chr>  <chr>  
      1       57 Salinator… Salin… <NA>      Amphib… Pulmo… Gast… Mollu… Animal…
@@ -359,7 +313,7 @@ sealife %>% filter(Class == "Gastropoda")
      8       64 Victaphan… Victa… <NA>      Rhytid… Pulmo… Gast… Mollu… Animal…
      9       65 Anoglypta… Anogl… <NA>      Caryod… Pulmo… Gast… Mollu… Animal…
     10       66 Brazieres… Brazi… <NA>      Caryod… Pulmo… Gast… Mollu… Animal…
-    # … with 19,463 more rows
+    # … with 19,469 more rows
 
 All other tables can also take an argument to `server`:
 
@@ -367,28 +321,28 @@ All other tables can also take an argument to `server`:
 species(server="sealifebase")
 ```
 
-    # A tibble: 119,074 x 104
-       SpecCode Species SpeciesRefNo Author AuthorRef FBname PicPreferredName
-          <dbl> <chr>          <dbl> <chr>      <dbl> <chr>  <chr>           
-     1        1 Phoron…            1 Wrigh…        NA <NA>   <NA>            
-     2        2 Phoron…          997 Wrigh…        NA <NA>   <NA>            
-     3        3 Phoron…            1 Oka, …        NA <NA>   <NA>            
-     4        4 Phoron…            1 Haswe…        NA <NA>   Phaus_u0.jpg    
-     5        5 Phoron…          997 Selys…        NA <NA>   <NA>            
-     6        6 Phoron…            1 Cori,…        NA phoro… <NA>            
-     7        7 Phoron…            1 (Schn…        NA <NA>   <NA>            
-     8        8 Phoron…            1 Gilch…        NA <NA>   <NA>            
-     9        9 Phoron…            1 Pixel…        NA <NA>   <NA>            
-    10       10 Phoron…            1 Hilto…        NA Calif… <NA>            
-    # … with 119,064 more rows, and 97 more variables:
-    #   PicPreferredNameM <chr>, PicPreferredNameF <chr>,
-    #   PicPreferredNameJ <chr>, FamCode <dbl>, Subfamily <chr>, Source <chr>,
-    #   Remark <chr>, TaxIssue <dbl>, Fresh <dbl>, Brack <dbl>,
-    #   Saltwater <dbl>, Land <dbl>, DemersPelag <chr>, AnaCat <chr>,
-    #   MigratRef <dbl>, DepthRangeShallow <dbl>, DepthRangeDeep <dbl>,
-    #   DepthRangeRef <dbl>, DepthRangeComShallow <dbl>,
+    # A tibble: 121,348 x 108
+       SpecCode Species Author SpeciesRefNo FBname FamCode Subfamily GenCode
+          <dbl> <chr>   <chr>         <dbl> <chr>    <dbl> <chr>       <dbl>
+     1        1 Phoron… Wrigh…            1 <NA>      4793 <NA>        12365
+     2        2 Phoron… Wrigh…          997 <NA>      4793 <NA>        12365
+     3        3 Phoron… Oka, …            1 horse…    4793 <NA>        12365
+     4        4 Phoron… Haswe…            1 Phoro…    4793 <NA>        12365
+     5        5 Phoron… Selys…          997 <NA>      4793 <NA>        12365
+     6        6 Phoron… Cori,…            1 phoro…    4793 <NA>        12365
+     7        7 Phoron… (Schn…            1 <NA>      4793 <NA>        12365
+     8        8 Phoron… Gilch…            1 <NA>      4793 <NA>        12366
+     9        9 Phoron… Pixel…            1 large…    4793 <NA>        12366
+    10       10 Phoron… Hilto…            1 Calif…    4793 <NA>        12366
+    # … with 121,338 more rows, and 100 more variables: TaxIssue <dbl>,
+    #   Remark <chr>, PicPreferredName <chr>, PicPreferredNameM <chr>,
+    #   PicPreferredNameF <chr>, PicPreferredNameJ <chr>, Source <chr>,
+    #   AuthorRef <dbl>, SubGenCode <lgl>, Fresh <dbl>, Brack <dbl>,
+    #   Saltwater <dbl>, Land <dbl>, BodyShapeI <lgl>, DemersPelag <chr>,
+    #   AnaCat <chr>, MigratRef <dbl>, DepthRangeShallow <dbl>,
+    #   DepthRangeDeep <dbl>, DepthRangeRef <dbl>, DepthRangeComShallow <dbl>,
     #   DepthRangeComDeep <dbl>, DepthComRef <dbl>, LongevityWild <dbl>,
-    #   LongevityWildRef <dbl>, LongevityCaptive <lgl>, LongevityCapRef <lgl>,
+    #   LongevityWildRef <dbl>, LongevityCaptive <dbl>, LongevityCapRef <dbl>,
     #   Vulnerability <dbl>, Length <dbl>, LTypeMaxM <chr>,
     #   LengthFemale <dbl>, LTypeMaxF <chr>, MaxLengthRef <dbl>,
     #   CommonLength <dbl>, LTypeComM <chr>, CommonLengthF <dbl>,
@@ -405,12 +359,13 @@ species(server="sealifebase")
     #   AquariumFishII <chr>, AquariumRef <dbl>, GameFish <dbl>,
     #   GameRef <lgl>, Dangerous <chr>, DangerousRef <dbl>,
     #   Electrogenic <chr>, ElectroRef <dbl>, Complete <lgl>, ASFA <lgl>,
-    #   GoogleImage <dbl>, Entered <dbl>, DateEntered <dttm>, Modified <dbl>,
-    #   DateModified <dttm>, Expert <dbl>, DateChecked <dttm>, Synopsis <lgl>,
-    #   DateSynopsis <lgl>, Flag <lgl>, Comments <chr>,
-    #   VancouverAquarium <dbl>, Profile <lgl>, Sp2000_NameCode <chr>,
-    #   Sp2000_HierarchyCode <chr>, Sp2000_AuthorRefNumber <chr>,
-    #   E_Append <dbl>, E_DateAppend <date>, TS <dttm>
+    #   GoogleImage <dbl>, Emblematic <dbl>, Entered <dbl>,
+    #   DateEntered <dttm>, Modified <dbl>, DateModified <dttm>, Expert <dbl>,
+    #   DateChecked <dttm>, Synopsis <lgl>, DateSynopsis <lgl>, Flag <lgl>,
+    #   Comments <chr>, VancouverAquarium <dbl>, Profile <lgl>,
+    #   Sp2000_NameCode <chr>, Sp2000_HierarchyCode <chr>,
+    #   Sp2000_AuthorRefNumber <chr>, E_Append <dbl>, E_DateAppend <date>,
+    #   TS <dttm>
 
 CAUTION: if switching between `fishbase` and `sealifebase` in a single R
 session, we strongly advise you always set `server` explicitly in your
@@ -444,8 +399,8 @@ context.
 -----
 
 Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its
+Conduct](https://github.com/ropensci/rfishbase/tree/master/CONDUCT.md).
+By participating in this project you agree to abide by its
 terms.
 
 [![ropensci\_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
