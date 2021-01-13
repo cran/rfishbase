@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Carl Boettiger" />
+
+<meta name="date" content="2020-10-01" />
+
+<title>The New rfishbase</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">The New rfishbase</h1>
+<h4 class="author">Carl Boettiger</h4>
+<h4 class="date">2020-10-01</h4>
+
+
+
+<p>Welcome to <code>rfishbase 3.0</code>. This package is the third rewrite of the original <code>rfishbase</code> package described in <a href="https://doi.org/10.1111/j.1095-8649.2012.03464.x">Boettiger et al. (2012)</a>.</p>
+<p><code>rfishbase</code> 3.0 queries pre-compressed tables from a static server and employs local caching (through memoization) to provide much greater performance and stability, particularly for dealing with large queries involving 10s of thousands of species. The user is never expected to deal with pagination or curl headers and timeouts.</p>
+<p>We welcome any feedback, issues or questions that users may encounter through our issues tracker on GitHub: [<a href="https://github.com/ropensci/rfishbase/issues" class="uri">https://github.com/ropensci/rfishbase/issues</a>].</p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;ropensci/rfishbase&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(<span class="st">&quot;rfishbase&quot;</span>)</span></code></pre></div>
+</div>
+<div id="getting-started" class="section level2">
+<h2>Getting started</h2>
+<p>FishBase (<code>https://fishbase.org</code>) makes it relatively easy to look up a lot of information on most known species of fish. However, looking up a single bit of data, such as the estimated trophic level, for many different species becomes tedious very soon. This is a common reason for using <code>rfishbase</code>. As such, our first step is to assemble a good list of species we are interested in.</p>
+<div id="building-a-species-list" class="section level3">
+<h3>Building a species list</h3>
+<p>Almost all functions in <code>rfishbase</code> take a list (character vector) of species scientific names, for example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>fish &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Oreochromis niloticus&quot;</span>, <span class="st">&quot;Salmo trutta&quot;</span>)</span></code></pre></div>
+<p>You can also read in a list of names from any existing data you are working with. When providing your own species list, you should always begin by validating the names. Taxonomy is a moving target, and this well help align the scientific names you are using with the names used by FishBase, and alert you to any potential issues:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>fish &lt;-<span class="st"> </span><span class="kw">validate_names</span>(<span class="kw">c</span>(<span class="st">&quot;Oreochromis niloticus&quot;</span>, <span class="st">&quot;Salmo trutta&quot;</span>))</span></code></pre></div>
+<p>Another typical use case is in wanting to collect information about all species in a particular taxonomic group, such as a Genus, Family or Order. The function <code>species_list</code> recognizes six taxonomic levels, and can help you generate a list of names of all species in a given group:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>fish &lt;-<span class="st"> </span><span class="kw">species_list</span>(<span class="dt">Genus =</span> <span class="st">&quot;Labroides&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>fish</span></code></pre></div>
+<pre><code>[1] &quot;Labroides rubrolabiatus&quot; &quot;Labroides dimidiatus&quot;   
+[3] &quot;Labroides bicolor&quot;       &quot;Labroides pectoralis&quot;   
+[5] &quot;Labroides phthirophagus&quot;</code></pre>
+<p><code>rfishbase</code> also recognizes common names. When a common name refers to multiple species, all matching species are returned:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>trout &lt;-<span class="st"> </span><span class="kw">common_to_sci</span>(<span class="st">&quot;trout&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>trout</span></code></pre></div>
+<pre><code># A tibble: 305 x 4
+   Species                   ComName              Language SpecCode
+   &lt;chr&gt;                     &lt;chr&gt;                &lt;chr&gt;    &lt;chr&gt;   
+ 1 Salmo obtusirostris       Adriatic trout       English  6210    
+ 2 Schizothorax richardsonii Alawan snowtrout     English  8705    
+ 3 Schizopyge niger          Alghad snowtrout     English  24454   
+ 4 Salvelinus fontinalis     American brook trout English  246     
+ 5 Salmo trutta              Amu-Darya trout      English  238     
+ 6 Salmo kottelati           Antalya trout        English  67602   
+ 7 Oncorhynchus apache       Apache Trout         English  2687    
+ 8 Oncorhynchus apache       Apache trout         English  2687    
+ 9 Plectropomus areolatus    Apricot trout        English  6082    
+10 Salmo trutta              Aral Sea Trout       English  238     
+# … with 295 more rows</code></pre>
+<p>Note that there is no need to validate names coming from <code>common_to_sci</code> or <code>species_list</code>, as these will always return valid names.</p>
+</div>
+<div id="getting-data" class="section level3">
+<h3>Getting data</h3>
+<p>With a species list in place, we are ready to query fishbase for data. Note that if you have a very long list of species, it is always a good idea to try out your intended functions with a subset of that list first to make sure everything is working.</p>
+<p>The <code>species()</code> function returns a table containing much (but not all) of the information found on the summary or homepage for a species on FishBase. <code>rfishbase</code> functions always return <a href="https://www.jstatsoft.org/v59/i10/paper">tidy</a> data tables: rows are observations (e.g. a species, individual samples from a species) and columns are variables (fields).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">species</span>(trout<span class="op">$</span>Species)</span></code></pre></div>
+<pre><code># A tibble: 305 x 101
+   SpecCode Species Genus SpeciesRefNo Author FBname PicPreferredName
+   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;           
+ 1 6210     Salmo … Salmo 59043        (Heck… Adria… Saobt_u0.jpg    
+ 2 8705     Schizo… Schi… 4832         (Gray… Snowt… Scric_u1.jpg    
+ 3 24454    Schizo… Schi… 4832         (Heck… Algha… &lt;NA&gt;            
+ 4 246      Salvel… Salv… 86798        (Mitc… Brook… Safon_u4.jpg    
+ 5 238      Salmo … Salmo 4779         Linna… Sea t… Satru_u2.jpg    
+ 6 67602    Salmo … Salmo 99540        Turan… Antal… Sakot_m0.jpg    
+ 7 2687     Oncorh… Onco… 5723         (Mill… Apach… Onapa_u0.jpg    
+ 8 2687     Oncorh… Onco… 5723         (Mill… Apach… Onapa_u0.jpg    
+ 9 6082     Plectr… Plec… 5222         (R&lt;fc… Squar… Plare_u4.jpg    
+10 238      Salmo … Salmo 4779         Linna… Sea t… Satru_u2.jpg    
+# … with 295 more rows, and 94 more variables: PicPreferredNameM &lt;chr&gt;,
+#   PicPreferredNameF &lt;chr&gt;, PicPreferredNameJ &lt;chr&gt;, FamCode &lt;chr&gt;,
+#   Subfamily &lt;chr&gt;, GenCode &lt;chr&gt;, SubGenCode &lt;chr&gt;, BodyShapeI &lt;chr&gt;,
+#   Source &lt;chr&gt;, AuthorRef &lt;chr&gt;, Remark &lt;chr&gt;, TaxIssue &lt;chr&gt;, Fresh &lt;chr&gt;,
+#   Brack &lt;chr&gt;, Saltwater &lt;chr&gt;, DemersPelag &lt;chr&gt;, Amphibious &lt;chr&gt;,
+#   AmphibiousRef &lt;chr&gt;, AnaCat &lt;chr&gt;, MigratRef &lt;chr&gt;,
+#   DepthRangeShallow &lt;chr&gt;, DepthRangeDeep &lt;chr&gt;, DepthRangeRef &lt;chr&gt;,
+#   DepthRangeComShallow &lt;chr&gt;, DepthRangeComDeep &lt;chr&gt;, DepthComRef &lt;chr&gt;,
+#   LongevityWild &lt;chr&gt;, LongevityWildRef &lt;chr&gt;, LongevityCaptive &lt;chr&gt;,
+#   LongevityCapRef &lt;chr&gt;, Vulnerability &lt;chr&gt;, Length &lt;chr&gt;, LTypeMaxM &lt;chr&gt;,
+#   LengthFemale &lt;chr&gt;, LTypeMaxF &lt;chr&gt;, MaxLengthRef &lt;chr&gt;,
+#   CommonLength &lt;chr&gt;, LTypeComM &lt;chr&gt;, CommonLengthF &lt;chr&gt;, LTypeComF &lt;chr&gt;,
+#   CommonLengthRef &lt;chr&gt;, Weight &lt;chr&gt;, WeightFemale &lt;chr&gt;,
+#   MaxWeightRef &lt;chr&gt;, Pic &lt;chr&gt;, PictureFemale &lt;chr&gt;, LarvaPic &lt;chr&gt;,
+#   EggPic &lt;chr&gt;, ImportanceRef &lt;chr&gt;, Importance &lt;chr&gt;, PriceCateg &lt;chr&gt;,
+#   PriceReliability &lt;chr&gt;, Remarks7 &lt;chr&gt;, LandingStatistics &lt;chr&gt;,
+#   Landings &lt;chr&gt;, MainCatchingMethod &lt;chr&gt;, II &lt;chr&gt;, MSeines &lt;chr&gt;,
+#   MGillnets &lt;chr&gt;, MCastnets &lt;chr&gt;, MTraps &lt;chr&gt;, MSpears &lt;chr&gt;,
+#   MTrawls &lt;chr&gt;, MDredges &lt;chr&gt;, MLiftnets &lt;chr&gt;, MHooksLines &lt;chr&gt;,
+#   MOther &lt;chr&gt;, UsedforAquaculture &lt;chr&gt;, LifeCycle &lt;chr&gt;,
+#   AquacultureRef &lt;chr&gt;, UsedasBait &lt;chr&gt;, BaitRef &lt;chr&gt;, Aquarium &lt;chr&gt;,
+#   AquariumFishII &lt;chr&gt;, AquariumRef &lt;chr&gt;, GameFish &lt;chr&gt;, GameRef &lt;chr&gt;,
+#   Dangerous &lt;chr&gt;, DangerousRef &lt;chr&gt;, Electrogenic &lt;chr&gt;, ElectroRef &lt;chr&gt;,
+#   Complete &lt;chr&gt;, GoogleImage &lt;chr&gt;, Comments &lt;chr&gt;, Profile &lt;chr&gt;,
+#   PD50 &lt;chr&gt;, Emblematic &lt;chr&gt;, Entered &lt;chr&gt;, DateEntered &lt;chr&gt;,
+#   Modified &lt;chr&gt;, DateModified &lt;chr&gt;, Expert &lt;chr&gt;, DateChecked &lt;chr&gt;,
+#   TS &lt;chr&gt;</code></pre>
+<p>Most tables contain many fields. To avoid overly cluttering the screen, <code>rfishbase</code> displays tables as “tibbles” from the <code>dplyr</code> package. These act just like the familiar <code>data.frames</code> of base R except that they print to the screen in a more tidy fashion. Note that columns that cannot fit easily in the display are summarized below the table. This gives us an easy way to see what fields are available in a given table.</p>
+<p>Most <code>rfishbase</code> functions will let the user subset these fields by listing them in the <code>fields</code> argument, for instance:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>dat &lt;-<span class="st"> </span><span class="kw">species</span>(trout<span class="op">$</span>Species, <span class="dt">fields=</span><span class="kw">c</span>(<span class="st">&quot;Species&quot;</span>, <span class="st">&quot;PriceCateg&quot;</span>, <span class="st">&quot;Vulnerability&quot;</span>))</span>
+<span id="cb11-2"><a href="#cb11-2"></a>dat</span></code></pre></div>
+<pre><code># A tibble: 305 x 3
+   Species                   PriceCateg Vulnerability
+   &lt;chr&gt;                     &lt;chr&gt;      &lt;chr&gt;        
+ 1 Salmo obtusirostris       very high  46.98        
+ 2 Schizothorax richardsonii unknown    34.78        
+ 3 Schizopyge niger          unknown    46.76        
+ 4 Salvelinus fontinalis     very high  43.37        
+ 5 Salmo trutta              very high  59.96        
+ 6 Salmo kottelati           &lt;NA&gt;       33.71        
+ 7 Oncorhynchus apache       very high  53.76        
+ 8 Oncorhynchus apache       very high  53.76        
+ 9 Plectropomus areolatus    very high  30.28        
+10 Salmo trutta              very high  59.96        
+# … with 295 more rows</code></pre>
+<p>Alternatively, just subset the table using the standard column selection in base R (<code>[[</code>) or <code>dplyr::select</code>.</p>
+</div>
+<div id="fishbase-docs-discovering-data" class="section level3">
+<h3>FishBase Docs: Discovering data</h3>
+<p>Unfortunately identifying what fields come from which tables is often a challenge. Each summary page on FishBase includes a list of additional tables with more information about species ecology, diet, occurrences, and many other things. <code>rfishbase</code> provides functions that correspond to most of these tables.</p>
+<p>Because <code>rfishbase</code> accesses the back end database, it does not always line up with the web display. Frequently <code>rfishbase</code> functions will return more information than is available on the web versions of the these tables. Some information found on the summary homepage for a species is not available from the <code>species</code> summary function, but must be extracted from a different table. For instance, the species <code>Resilience</code> information is not one of the fields in the <code>species</code> summary table, despite appearing on the species homepage of FishBase. To discover which table this information is in, we can use the special <code>rfishbase</code> function <code>list_fields</code>, which will list all tables with a field matching the query string:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">list_fields</span>(<span class="st">&quot;Resilience&quot;</span>)</span></code></pre></div>
+<pre><code># A tibble: 1 x 1
+  table 
+  &lt;chr&gt; 
+1 stocks</code></pre>
+<p>This shows us that this information appears on the <code>stocks</code> table. We can then request this data from the stocks table:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">stocks</span>(trout<span class="op">$</span>Species, <span class="dt">fields=</span><span class="kw">c</span>(<span class="st">&quot;Species&quot;</span>, <span class="st">&quot;Resilience&quot;</span>, <span class="st">&quot;StockDefs&quot;</span>))</span></code></pre></div>
+<pre><code># A tibble: 407 x 3
+   Species            Resilience StockDefs                                      
+   &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt;                                          
+ 1 Salmo obtusirostr… Medium     &quot;Europe:  Adriatic basin in Krka, Jardo, Vrlji…
+ 2 Schizothorax rich… Medium     &quot;Asia:  Himalayan region of India, Sikkim and …
+ 3 Schizopyge niger   Medium     &quot;Asia:  Kashmir Valley in India and Azad Kashm…
+ 4 Salvelinus fontin… Medium     &quot;North America:  native to most of eastern Can…
+ 5 Salmo trutta       &lt;NA&gt;       &quot;&lt;i&gt;Salmo trutta aralensis&lt;/i&gt;:  Asia:  endemi…
+ 6 Salmo trutta       &lt;NA&gt;       &quot;&lt;i&gt;Salmo trutta oxianus&lt;/i&gt;\t:  Asia:  Amu-Da…
+ 7 Salmo trutta       Medium     &quot;&lt;i&gt;Salmo trutta fario&lt;/i&gt;:  Northeast  Atlant…
+ 8 Salmo trutta       Medium     &quot;Europe and Asia:  Atlantic, North, White and …
+ 9 Salmo trutta       Low        &quot;&lt;i&gt;Salmo trutta lacustris&lt;/i&gt;\t:  Europe:  wi…
+10 Salmo trutta       &lt;NA&gt;       &quot;&lt;i&gt;Salmo trutta aralensis&lt;/i&gt;:  Asia:  Aral S…
+# … with 397 more rows</code></pre>
+</div>
+</div>
+<div id="version-stability" class="section level2">
+<h2>Version stability</h2>
+<p><code>rfishbase</code> relies on periodic cache releases. The current database release is <code>17.07</code> (i.e. dating from July 2017). Set the version of FishBase you wish to access by setting the environmental variable:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">Sys.setenv</span>(<span class="dt">FISHBASE_VERSION=</span><span class="st">&quot;17.07&quot;</span>)</span></code></pre></div>
+<p>Note that the same version number applies to both the <code>fishbase</code> and <code>sealifebase</code> data. Stay tuned for new releases.</p>
+</div>
+<div id="sealifebase" class="section level2">
+<h2>SeaLifeBase</h2>
+<p>SeaLifeBase.org is maintained by the same organization and largely parallels the database structure of Fishbase. As such, almost all <code>rfishbase</code> functions can instead be instructed to address the</p>
+<p>We can begin by viewing the taxa table for sealifebase:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">load_taxa</span>(<span class="dt">server=</span><span class="st">&quot;sealifebase&quot;</span>)</span></code></pre></div>
+<pre><code># Source:     lazy query [?? x 9]
+# Database:   sqlite 3.30.1 [/Users/sckott/Library/Application
+#   Support/rfishbase/database/sqlite_db.sqlite]
+# Ordered by: &quot;SpecCode&quot;
+   SpecCode Species     Genus   Subfamily Family    Order  Class  Phylum Kingdom
+   &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  
+ 1 32307    Aaptolasma… Aaptol… &lt;NA&gt;      Bathylas… Sessi… Maxil… Arthr… Animal…
+ 2 32306    Aaptolasma… Aaptol… &lt;NA&gt;      Bathylas… Sessi… Maxil… Arthr… Animal…
+ 3 32308    Aaptolasma… Aaptol… &lt;NA&gt;      Bathylas… Sessi… Maxil… Arthr… Animal…
+ 4 32304    Aaptolasma… Aaptol… &lt;NA&gt;      Bathylas… Sessi… Maxil… Arthr… Animal…
+ 5 32305    Aaptolasma… Aaptol… &lt;NA&gt;      Bathylas… Sessi… Maxil… Arthr… Animal…
+ 6 51720    Aaptos aap… Aaptos  &lt;NA&gt;      Suberiti… Hadro… Demos… Porif… Animal…
+ 7 165941   Aaptos ber… Aaptos  &lt;NA&gt;      Suberiti… Hadro… Demos… Porif… Animal…
+ 8 105687   Aaptos cil… Aaptos  &lt;NA&gt;      Suberiti… Hadro… Demos… Porif… Animal…
+ 9 10215    Aatolana s… Aatola… &lt;NA&gt;      Cirolani… Isopo… Malac… Arthr… Animal…
+10 90398    Aatolana s… Aatola… &lt;NA&gt;      Cirolani… Isopo… Malac… Arthr… Animal…
+# … with more rows</code></pre>
+<p>(Note: running <code>load_taxa()</code> at the beginning of any session, for either fishbase or sealifebase is a good way to “warm up” rfishbase by loading in taxonomic data it will need. This information is cached throughout your session and will make all subsequent commands run faster. But no worries if you skip this step, <code>rfishbase</code> will peform it for you on the first time it is needed, and will cache these results thereafter.)</p>
+<p>All other tables can also take an argument to <code>server</code>:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">species</span>(<span class="dt">server=</span><span class="st">&quot;sealifebase&quot;</span>)</span></code></pre></div>
+<pre><code># A tibble: 49,990 x 109
+   SpecCode Species Genus Author SpeciesRefNo FBname FamCode Subfamily GenCode
+   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;  
+ 1 32307    Aaptol… Aapt… (Pils… 19           &lt;NA&gt;   815     &lt;NA&gt;      27838  
+ 2 32306    Aaptol… Aapt… Newma… 81749        &lt;NA&gt;   815     &lt;NA&gt;      27838  
+ 3 32308    Aaptol… Aapt… (Pils… 19           &lt;NA&gt;   815     &lt;NA&gt;      27838  
+ 4 32304    Aaptol… Aapt… Newma… 19           &lt;NA&gt;   815     &lt;NA&gt;      27838  
+ 5 32305    Aaptol… Aapt… Newma… 19           &lt;NA&gt;   815     &lt;NA&gt;      27838  
+ 6 51720    Aaptos… Aapt… (Schm… 19           &lt;NA&gt;   2630    &lt;NA&gt;      9253   
+ 7 165941   Aaptos… Aapt… de La… 108813       &lt;NA&gt;   2630    &lt;NA&gt;      &lt;NA&gt;   
+ 8 105687   Aaptos… Aapt… (Wils… 3477         &lt;NA&gt;   2630    &lt;NA&gt;      9253   
+ 9 10215    Aatola… Aato… (Mier… 3113         &lt;NA&gt;   521     &lt;NA&gt;      9254   
+10 90398    Aatola… Aato… Keabl… 3113         &lt;NA&gt;   521     &lt;NA&gt;      9254   
+# … with 49,980 more rows, and 100 more variables: TaxIssue &lt;chr&gt;,
+#   Remark &lt;chr&gt;, PicPreferredName &lt;chr&gt;, PicPreferredNameM &lt;chr&gt;,
+#   PicPreferredNameF &lt;chr&gt;, PicPreferredNameJ &lt;chr&gt;, Source &lt;chr&gt;,
+#   AuthorRef &lt;chr&gt;, SubGenCode &lt;chr&gt;, Fresh &lt;chr&gt;, Brack &lt;chr&gt;,
+#   Saltwater &lt;chr&gt;, Land &lt;chr&gt;, BodyShapeI &lt;chr&gt;, DemersPelag &lt;chr&gt;,
+#   AnaCat &lt;chr&gt;, MigratRef &lt;chr&gt;, DepthRangeShallow &lt;chr&gt;,
+#   DepthRangeDeep &lt;chr&gt;, DepthRangeRef &lt;chr&gt;, DepthRangeComShallow &lt;chr&gt;,
+#   DepthRangeComDeep &lt;chr&gt;, DepthComRef &lt;chr&gt;, LongevityWild &lt;chr&gt;,
+#   LongevityWildRef &lt;chr&gt;, LongevityCaptive &lt;chr&gt;, LongevityCapRef &lt;chr&gt;,
+#   Vulnerability &lt;chr&gt;, Length &lt;chr&gt;, LTypeMaxM &lt;chr&gt;, LengthFemale &lt;chr&gt;,
+#   LTypeMaxF &lt;chr&gt;, MaxLengthRef &lt;chr&gt;, CommonLength &lt;chr&gt;, LTypeComM &lt;chr&gt;,
+#   CommonLengthF &lt;chr&gt;, LTypeComF &lt;chr&gt;, CommonLengthRef &lt;chr&gt;, Weight &lt;chr&gt;,
+#   WeightFemale &lt;chr&gt;, MaxWeightRef &lt;chr&gt;, Pic &lt;chr&gt;, PictureFemale &lt;chr&gt;,
+#   LarvaPic &lt;chr&gt;, EggPic &lt;chr&gt;, ImportanceRef &lt;chr&gt;, Importance &lt;chr&gt;,
+#   Remarks7 &lt;chr&gt;, PriceCateg &lt;chr&gt;, PriceReliability &lt;chr&gt;,
+#   LandingStatistics &lt;chr&gt;, Landings &lt;chr&gt;, MainCatchingMethod &lt;chr&gt;,
+#   II &lt;chr&gt;, MSeines &lt;chr&gt;, MGillnets &lt;chr&gt;, MCastnets &lt;chr&gt;, MTraps &lt;chr&gt;,
+#   MSpears &lt;chr&gt;, MTrawls &lt;chr&gt;, MDredges &lt;chr&gt;, MLiftnets &lt;chr&gt;,
+#   MHooksLines &lt;chr&gt;, MOther &lt;chr&gt;, UsedforAquaculture &lt;chr&gt;, LifeCycle &lt;chr&gt;,
+#   AquacultureRef &lt;chr&gt;, UsedasBait &lt;chr&gt;, BaitRef &lt;chr&gt;, Aquarium &lt;chr&gt;,
+#   AquariumFishII &lt;chr&gt;, AquariumRef &lt;chr&gt;, GameFish &lt;chr&gt;, GameRef &lt;chr&gt;,
+#   Dangerous &lt;chr&gt;, DangerousRef &lt;chr&gt;, Electrogenic &lt;chr&gt;, ElectroRef &lt;chr&gt;,
+#   Complete &lt;chr&gt;, ASFA &lt;chr&gt;, GoogleImage &lt;chr&gt;, Emblematic &lt;chr&gt;,
+#   Entered &lt;chr&gt;, DateEntered &lt;chr&gt;, Modified &lt;chr&gt;, DateModified &lt;chr&gt;,
+#   Expert &lt;chr&gt;, DateChecked &lt;chr&gt;, Synopsis &lt;chr&gt;, DateSynopsis &lt;chr&gt;,
+#   Flag &lt;chr&gt;, Comments &lt;chr&gt;, VancouverAquarium &lt;chr&gt;, Profile &lt;chr&gt;,
+#   Sp2000_NameCode &lt;chr&gt;, Sp2000_HierarchyCode &lt;chr&gt;,
+#   Sp2000_AuthorRefNumber &lt;chr&gt;, E_Append &lt;chr&gt;, E_DateAppend &lt;chr&gt;, TS &lt;chr&gt;</code></pre>
+<p>CAUTION: if switching between <code>fishbase</code> and <code>sealifebase</code> in a single R session, we strongly advise you always set <code>server</code> explicitly in your function calls. Otherwise you may confuse the caching system.</p>
+</div>
+<div id="backwards-compatibility" class="section level2">
+<h2>Backwards compatibility</h2>
+<p><code>rfishbase</code> 3.0 tries to maintain as much backwards compatibility as possible with rfishbase 2.0. However, there are cases in which the rfishbase 2.0 behavior was not desirable – such as throwing errors when a introducing simple <code>NA</code>s for missing data would be more appropriate, or returning vectors where <code>data.frame</code>s were needed to include all the context.</p>
+<ul>
+<li><p>Argument names have been retained where possible to maximize backwards compatibility. Using previous arguments that are no longer relevant (such as <code>limit</code> for the maximum number of records) will not now introduce errors, but nor will they have any effect (they are simply consumed by the <code>...</code>). There are no longer any limits in return sizes.</p></li>
+<li><p>You can still specify server using the rfishbase <code>2.x</code> format of providing a URL argument for server, e.g. <code>&quot;http://fishbase.ropensci.org/sealifebase&quot;</code> or <code>Sys.setenv(FISHBASE_API = &quot;http://fishbase.ropensci.org/sealifebase&quot;)</code>, or simply <code>Sys.setenv(&quot;FISHBASE_API&quot; = &quot;sealifebase&quot;)</code> if you prefer. Also recall that environmental variables can always be set in an <code>.Renviron</code> file.</p></li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

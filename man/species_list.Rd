@@ -4,9 +4,17 @@
 \alias{species_list}
 \title{species_list}
 \usage{
-species_list(Class = NULL, Order = NULL, Family = NULL,
-  Subfamily = NULL, Genus = NULL, Species = NULL, SpecCode = NULL,
-  SuperClass = NULL, server = getOption("FISHBASE_API", FISHBASE_API))
+species_list(
+  Class = NULL,
+  Order = NULL,
+  Family = NULL,
+  Subfamily = NULL,
+  Genus = NULL,
+  Species = NULL,
+  SpecCode = NULL,
+  SuperClass = NULL,
+  server = getOption("FISHBASE_API", FISHBASE_API)
+)
 }
 \arguments{
 \item{Class}{Request all species in this taxonomic Class}
@@ -25,7 +33,7 @@ species_list(Class = NULL, Order = NULL, Family = NULL,
 
 \item{SuperClass}{Request all species of this Superclass}
 
-\item{server}{fishbase or}
+\item{server}{fishbase or sealifebase}
 }
 \description{
 Return the a species list given a taxonomic group
