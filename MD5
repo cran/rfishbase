@@ -1,6 +1,6 @@
-0691c875317a1bf2b3c58d8d73f36504 *DESCRIPTION
-405d2fba1b0601eddfdf8b96eb548615 *NAMESPACE
-d52134859c4e2c323d9059d9f17ffc65 *NEWS.md
+186e0b45d0e376ba0bb0da5f51b8f9c9 *DESCRIPTION
+3a2ac3c99e201e072a08e3607ecee931 *NAMESPACE
+bf709af20bb28daf80d3be007a63b2f0 *NEWS.md
 4665208ab61aa16a0041b49720ea6b8f *R/00-endpoint.R
 34b993b2b926fee645b15806cb82778b *R/brains.R
 9043f157916366a14da4b4cc2768235c *R/common_names.R
@@ -11,7 +11,7 @@ ae82bdadf58967f6daad35cb19c7c855 *R/fb_tbl.R
 49134b2a878dc6be484e5329df8fba70 *R/fishbase.R
 9ef567fe306e6e161ce5f4b6f0f0acbc *R/list_fields.R
 f2908590fdd66fd821129bd10fd70251 *R/load_taxa.R
-d4f4642c96be0aab07ae70d086d0daba *R/local_db.R
+17a63f47181a2eb34a9c47090d54f0f2 *R/local_db.R
 d6ae585bb5cad4b34c30178a918edfb8 *R/morpho_physio.R
 5cbe337a4fa2d6ad8b7fa5f787732bd5 *R/population_dynamics.R
 421982d645377f2bd5f7577250f63118 *R/refs.R

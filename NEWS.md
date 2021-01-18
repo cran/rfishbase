@@ -23,6 +23,12 @@ And constructed with the following guidelines:
 
 For more information on SemVer, please visit http://semver.org/.
 
+
+v 3.1.5
+-------
+
+- replace rappdirs with base R tools
+
 v 3.1.4
 -------
 
