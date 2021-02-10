@@ -1,6 +1,6 @@
-186e0b45d0e376ba0bb0da5f51b8f9c9 *DESCRIPTION
+723fb66c14a3e3a6131444fdd1793bca *DESCRIPTION
 3a2ac3c99e201e072a08e3607ecee931 *NAMESPACE
-bf709af20bb28daf80d3be007a63b2f0 *NEWS.md
+3091672b7bd27963d6719cdd16ebf767 *NEWS.md
 4665208ab61aa16a0041b49720ea6b8f *R/00-endpoint.R
 34b993b2b926fee645b15806cb82778b *R/brains.R
 9043f157916366a14da4b4cc2768235c *R/common_names.R
@@ -29,7 +29,7 @@ d05b83f1e12e7d375c2a3b9f7ecb9ae4 *R/synonyms.R
 8aa9f0537927e1c1d44bdeda231a2952 *data/fishbase.rda
 11a2b2f65267e9fab2808dfe016a8cd6 *data/sealifebase.rda
 9e2117f615c0efb15a6021ff33eb1dcb *inst/CITATION
-81efa45a362cfcc14dc27c3fd3cd8b5c *inst/WORDLIST
+fbb41e03487bf4dcff2a1c45e2978be8 *inst/WORDLIST
 f64d4938bf4f215276f7e833257ab2fb *inst/doc/rfishbase.Rmd
 3e45a77750208119b625f97cbc946451 *inst/doc/rfishbase.html
 3c9c2bb8e055e8d7144703431e2c9b15 *inst/examples/length-weight.Rmd
@@ -273,9 +273,9 @@ a139ed02dd0cbdf36389c588c5477b88 *man/synonyms.Rd
 fe3bdb93a026c5c65df161bb0df86501 *man/validate_names.Rd
 0622a97a2aaa3c342f09636052c2d7f5 *tests/spelling.R
 1f2f25e1d8d05a39cb3a020ddc8c890c *tests/testthat.R
-e4f21533ccdab5337498a98e16111ddb *tests/testthat/helper_rfishbase.R
+15787cfc2ecf770b4132b3ab60f4e04f *tests/testthat/helper_rfishbase.R
 8947bd63ef85e5a4249fee5542caaa05 *tests/testthat/setup-test_db.R
-3957d952d552f7098d0ad09a3be465b0 *tests/testthat/test-db_create.R
+b32075ab259e4c8911846a263c1e4f9a *tests/testthat/test-db_create.R
 a37b7dc0e2a9d7b191bd3e75e59e0e76 *tests/testthat/test_commonnames.R
 580fac0b0f93afe13990356a0ed7708f *tests/testthat/test_distribution.R
 66b419c83208ef43546f843236183412 *tests/testthat/test_ecology.R
