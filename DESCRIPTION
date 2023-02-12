@@ -6,7 +6,7 @@ Description: A programmatic interface to 'FishBase', re-written
     supports experimental access to 'SeaLifeBase' data, which contains
     nearly 200,000 species records for all types of aquatic life not covered by
     'FishBase.'
-Version: 4.0.0
+Version: 4.1.0
 Encoding: UTF-8
 License: CC0
 Authors@R: c(person("Carl", "Boettiger",
@@ -26,13 +26,14 @@ BugReports: https://github.com/ropensci/rfishbase/issues
 LazyData: true
 Depends: R (>= 4.0)
 Imports: methods, utils, tools, purrr, progress, memoise, rlang,
-        magrittr, tibble, readr (>= 2.0.0), stringr, jsonlite, DBI,
-        dplyr, dbplyr, duckdb, contentid (>= 0.0.15), rstudioapi
+        magrittr, readr (>= 2.0.0), stringr, jsonlite, DBI, dplyr,
+        dbplyr, duckdb, contentid (>= 0.0.15), rstudioapi, fs, glue,
+        tibble
 Suggests: testthat, rmarkdown, knitr, covr, spelling
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Language: en-US
 NeedsCompilation: no
-Packaged: 2021-12-14 00:03:35 UTC; cboettig
+Packaged: 2023-02-12 04:54:47 UTC; cboettig
 Author: Carl Boettiger [cre, aut] (<https://orcid.org/0000-0002-1642-628X>),
   Scott Chamberlain [aut] (<https://orcid.org/0000-0003-1444-9135>),
   Duncan Temple Lang [aut],
@@ -40,4 +41,4 @@ Author: Carl Boettiger [cre, aut] (<https://orcid.org/0000-0002-1642-628X>),
   Kevin Cazelles [ctb] (<https://orcid.org/0000-0001-6619-9874>)
 Maintainer: Carl Boettiger <cboettig@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-12-14 14:20:02 UTC
+Date/Publication: 2023-02-12 05:20:02 UTC

@@ -23,6 +23,19 @@ And constructed with the following guidelines:
 
 For more information on SemVer, please visit http://semver.org/.
 
+v 4.1.0
+--------
+
+* New data release, v23.01 (fishbase & sealifebase)
+* direct URL-based import supported, `contentid` now a fallback method.
+* set option "rfishbase_local_db" = TRUE to create a local copy, otherwise will use a remote copy.
+  Local copy will get better performance after initial import, but may experience conflicts when
+  `duckdb` is upgraded or when multiple sessions attempt to access the directory.  Remove the default
+  storage directory (given by `db_dir()`) after upgrading duckdb if using a local copy.  
+
+Note that with `hash-archive.org` resolver is down, and software-heritage API has strict rate limits,
+so direct URL access is preferable.  
+
 v 4.0.0
 --------
 
