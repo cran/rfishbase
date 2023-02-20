@@ -1,6 +1,6 @@
-19beb141ba7ddfbbb279230b8e536caa *DESCRIPTION
+8f323e651033f292b3265c2a10c6d88f *DESCRIPTION
 e6ed2dd50fd75533387e89e6d7b95c29 *NAMESPACE
-45539ee6ce1fe6a92f3e6b6ee8b501c4 *NEWS.md
+a66a8e51d56ea38067b80691d2f410e2 *NEWS.md
 f02e75643c41308e2d52054bc4e0c62e *R/00-endpoint.R
 ab117c117cbc4f655d6624956c91a837 *R/available_releases.R
 1f0b67b10072cc3f698b5e6696a2a198 *R/brains.R
@@ -8,7 +8,7 @@ ab117c117cbc4f655d6624956c91a837 *R/available_releases.R
 535c5b334865c3075f1b15c7bc1e2f75 *R/cran-hacks.R
 c1c3e1542f2573d07b9eeff4a201d752 *R/distribution.R
 f3a1c29b56aec044a64fb280f00770cd *R/docs.R
-95577c6de17e87223aad19e68c6efab1 *R/duckdb-direct.R
+685c2ea82ce7591b8de18670c3bf9fce *R/duckdb-direct.R
 38325200380a1449ab1052efb3f65dfd *R/fb_tbl.R
 49134b2a878dc6be484e5329df8fba70 *R/fishbase.R
 c956ab54d6f9f3910c80905e6f6518c0 *R/load_taxa.R
