@@ -3,9 +3,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/ropensci/rfishbase/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rfishbase/actions)
-[![Coverage
-status](https://codecov.io/gh/ropensci/rfishbase/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/rfishbase?branch=master)
+[![R-CMD-check](https://github.com/ropensci/rfishbase/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/rfishbase/actions/workflows/R-CMD-check.yaml)
 [![Onboarding](https://badges.ropensci.org/137_status.svg)](https://github.com/ropensci/software-review/issues/137)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rfishbase)](https://cran.r-project.org/package=rfishbase)
@@ -57,24 +55,23 @@ function:
 fb_tbl("ecosystem")
 ```
 
-    # A tibble: 157,870 × 18
-       autoctr E_CODE Ecosy…¹ Specc…² Stock…³ Status Curre…⁴ Abund…⁵ LifeS…⁶ Remarks
-         <int>  <int>   <int>   <int>   <int> <chr>  <chr>   <chr>   <chr>   <chr>  
-     1       1      1   50628     549     565 native Present <NA>    adults  <NA>   
-     2       2      1     189     552     568 native Present <NA>    adults  <NA>   
-     3       3      1     189     554     570 native Present <NA>    adults  <NA>   
-     4       4      1   79732     873     889 native Present <NA>    adults  <NA>   
-     5       5      1    5217     948     964 native Present <NA>    adults  <NA>   
-     6       7      1   39852     956     972 native Present <NA>    adults  <NA>   
-     7       8      1   39852     957     973 native Present <NA>    adults  <NA>   
-     8       9      1   39852     958     974 native Present <NA>    adults  <NA>   
-     9      10      1     188    1526    1719 native Present <NA>    adults  <NA>   
-    10      11      1     188    1626    1819 native Present <NA>    adults  <NA>   
-    # … with 157,860 more rows, 8 more variables: Entered <int>,
-    #   Dateentered <dttm>, Modified <int>, Datemodified <dttm>, Expert <int>,
-    #   Datechecked <dttm>, WebURL <chr>, TS <dttm>, and abbreviated variable names
-    #   ¹​EcosystemRefno, ²​Speccode, ³​Stockcode, ⁴​CurrentPresence, ⁵​Abundance,
-    #   ⁶​LifeStage
+    # A tibble: 158,644 × 18
+       autoctr E_CODE EcosystemRefno Speccode Stockcode Status CurrentPresence
+         <int>  <int>          <int>    <int>     <int> <chr>  <chr>          
+     1       1      1          50628      549       565 native Present        
+     2       2      1            189      552       568 native Present        
+     3       3      1            189      554       570 native Present        
+     4       4      1          79732      873       889 native Present        
+     5       5      1           5217      948       964 native Present        
+     6       7      1          39852      956       972 native Present        
+     7       8      1          39852      957       973 native Present        
+     8       9      1          39852      958       974 native Present        
+     9      10      1            188     1526      1719 native Present        
+    10      11      1            188     1626      1819 native Present        
+    # ℹ 158,634 more rows
+    # ℹ 11 more variables: Abundance <chr>, LifeStage <chr>, Remarks <chr>,
+    #   Entered <int>, Dateentered <dttm>, Modified <int>, Datemodified <dttm>,
+    #   Expert <int>, Datechecked <dttm>, WebURL <chr>, TS <dttm>
 
 You can see all the tables using `fb_tables()` to see a list of all the
 table names (specify `sealifebase` if desired). Careful, there are a lot
@@ -115,26 +112,26 @@ parallels the database structure of Fishbase. As such, almost all
 fb_tbl("species", "sealifebase")
 ```
 
-    # A tibble: 103,169 × 109
-       SpecCode Genus  Species Author Speci…¹ FBname FamCode Subfa…² GenCode TaxIs…³
-          <int> <chr>  <chr>   <chr>    <int> <chr>    <int> <chr>     <int>   <int>
-     1    10217 Abyss… cidaris Poore…    3113 <NA>       512 <NA>       9280       0
-     2    10218 Abyss… panope  Poore…    3113 <NA>       512 <NA>       9280       0
-     3    90399 Abyss… averin… Kussa…    3113 <NA>       502 <NA>      17490       0
-     4    52610 Abyss… millari Monni…    2585 <NA>       978 <NA>       9281       0
-     5    52611 Abyss… wyvill… Herdm…    2892 <NA>       978 <NA>       9281       0
-     6   138684 Abyss… planus  (Slad…   81020 <NA>      1615 <NA>      24229       0
-     7    90400 Abyss… acutil… Doti …    3113 <NA>       587 <NA>       9282       0
-     8    10219 Abyss… argent… Menzi…    3113 <NA>       587 <NA>       9282       0
-     9    10220 Abyss… bathya… Just,…    3113 <NA>       587 <NA>       9282       0
-    10    10221 Abyss… dentif… Menzi…    3113 <NA>       587 <NA>       9282       0
-    # … with 103,159 more rows, 99 more variables: Remark <chr>,
-    #   PicPreferredName <chr>, PicPreferredNameM <chr>, PicPreferredNameF <chr>,
-    #   PicPreferredNameJ <chr>, Source <chr>, AuthorRef <int>, SubGenCode <int>,
-    #   Fresh <int>, Brack <int>, Saltwater <int>, Land <int>, BodyShapeI <chr>,
-    #   DemersPelag <chr>, AnaCat <chr>, MigratRef <int>, DepthRangeShallow <int>,
-    #   DepthRangeDeep <int>, DepthRangeRef <int>, DepthRangeComShallow <int>,
-    #   DepthRangeComDeep <int>, DepthComRef <int>, LongevityWild <dbl>, …
+    # A tibble: 103,290 × 109
+       SpecCode Genus   Species Author SpeciesRefNo FBname FamCode Subfamily GenCode
+          <int> <chr>   <chr>   <chr>         <int> <chr>    <int> <chr>       <int>
+     1    10215 Aatola… schioe… (Mier…         3113 <NA>       521 <NA>         9254
+     2    90398 Aatola… spring… Keabl…         3113 <NA>       521 <NA>         9254
+     3   142030 Abaren… affinis (Ashw…        85340 <NA>       238 <NA>         9255
+     4    38944 Abaren… clapar… (Levi…        85340 <NA>       238 <NA>         9255
+     5    38945 Abaren… pacifi… unspe…        93817 Pacif…     238 <NA>         9255
+     6    38946 Abaren… pusilla unspe…           19 <NA>       238 <NA>         9255
+     7    38948 Abaren… vagabu… unspe…           19 <NA>       238 <NA>         9255
+     8    28719 Abasia  pseudo… Wilso…           19 <NA>       827 <NA>         9256
+     9   130412 Abathe… fissum  (Hoek…        81749 <NA>       771 <NA>         9257
+    10    32026 Abathe… korean… (Hiro…           19 <NA>       771 <NA>         9257
+    # ℹ 103,280 more rows
+    # ℹ 100 more variables: TaxIssue <int>, Remark <chr>, PicPreferredName <chr>,
+    #   PicPreferredNameM <chr>, PicPreferredNameF <chr>, PicPreferredNameJ <chr>,
+    #   Source <chr>, AuthorRef <int>, SubGenCode <int>, Fresh <int>, Brack <int>,
+    #   Saltwater <int>, Land <int>, BodyShapeI <chr>, DemersPelag <chr>,
+    #   AnaCat <chr>, MigratRef <int>, DepthRangeShallow <int>,
+    #   DepthRangeDeep <int>, DepthRangeRef <int>, DepthRangeComShallow <int>, …
 
 ## Versions and importing all tables
 
@@ -147,7 +144,7 @@ fishbase.org. Check available releases:
 available_releases()
 ```
 
-    [1] "23.01" "21.06" "19.04"
+    [1] "23.05" "23.01" "21.06" "19.04"
 
 ## Low-memory environments
 
@@ -164,25 +161,25 @@ fb_tbl("occurrence")
 ```
 
     # A tibble: 1,097,303 × 106
-       catnum2 OccurrenceR…¹ SpecC…² Syncode Stock…³ Genus…⁴ Speci…⁵ ColName PicName
-         <int>         <int>   <int>   <int>   <int> <chr>   <chr>   <chr>   <chr>  
-     1   34424         36653     227   22902     241 "Megal… "cypri… "Megal… ""     
-     2   95154         45880      NA      NA      NA ""      ""      ""      ""     
-     3   97606         45880      NA      NA      NA ""      ""      ""      ""     
-     4  100025         45880    5520   25676    5809 "Johni… "belan… ""      ""     
-     5   98993         45880    5676   16650    5969 "Chrom… "retro… ""      ""     
-     6   99316         45880     454   23112     468 "Drepa… "punct… ""      ""     
-     7   99676         45880    5388  145485    5647 "Gymno… "bosch… ""      ""     
-     8   99843         45880   16813  119925   15264 "Hemir… "balin… ""      ""     
-     9  100607         45880    8288   59635    8601 "Ostra… "rhino… ""      ""     
-    10  101529         45880      NA      NA      NA "Scomb… "toloo… ""      ""     
-    # … with 1,097,293 more rows, 97 more variables: CatNum <chr>, URL <chr>,
+       catnum2 OccurrenceRefNo SpecCode Syncode Stockcode GenusCol       SpeciesCol 
+         <int>           <int>    <int>   <int>     <int> <chr>          <chr>      
+     1   34424           36653      227   22902       241 "Megalops"     "cyprinoid…
+     2   95154           45880       NA      NA        NA ""             ""         
+     3   97606           45880       NA      NA        NA ""             ""         
+     4  100025           45880     5520   25676      5809 "Johnius"      "belangeri…
+     5   98993           45880     5676   16650      5969 "Chromis"      "retrofasc…
+     6   99316           45880      454   23112       468 "Drepane"      "punctata" 
+     7   99676           45880     5388  145485      5647 "Gymnothorax"  "boschi"   
+     8   99843           45880    16813  119925     15264 "Hemiramphus"  "balinensi…
+     9  100607           45880     8288   59635      8601 "Ostracion"    "rhinorhyn…
+    10  101529           45880       NA      NA        NA "Scomberoides" "toloo-par…
+    # ℹ 1,097,293 more rows
+    # ℹ 99 more variables: ColName <chr>, PicName <chr>, CatNum <chr>, URL <chr>,
     #   Station <chr>, Cruise <chr>, Gazetteer <chr>, LocalityType <chr>,
     #   WaterDepthMin <dbl>, WaterDepthMax <dbl>, AltitudeMin <int>,
     #   AltitudeMax <int>, LatitudeDeg <int>, LatitudeMin <dbl>, NorthSouth <chr>,
     #   LatitudeDec <dbl>, LongitudeDeg <int>, LongitudeMIn <dbl>, EastWest <chr>,
-    #   LongitudeDec <dbl>, Accuracy <chr>, Salinity <chr>, LatitudeTo <dbl>,
-    #   LongitudeTo <dbl>, LatitudeDegTo <int>, LatitudeMinTo <dbl>, …
+    #   LongitudeDec <dbl>, Accuracy <chr>, Salinity <chr>, LatitudeTo <dbl>, …
 
 ## Local copy
 
@@ -201,7 +198,7 @@ conn <- fb_conn()
 conn
 ```
 
-    <duckdb_connection 5fa20 driver=<duckdb_driver 543a0 dbdir='/home/cboettig/.local/share/R/rfishbase/fishbase_23.01' read_only=FALSE bigint=numeric>>
+    <duckdb_connection 9fb20 driver=<duckdb_driver b4670 dbdir='/home/cboettig/.local/share/R/rfishbase/fishbase_23.05' read_only=FALSE bigint=numeric>>
 
 Users can trigger a one-time download of all fishbase tables (or a list
 of desired tables) using `fb_import()`. This will ensure later use of
@@ -213,8 +210,6 @@ the tables, for users who prefer to work with the remote data objects.)
 ``` r
 fb_import()
 ```
-
-    <duckdb_connection 5fa20 driver=<duckdb_driver 543a0 dbdir='/home/cboettig/.local/share/R/rfishbase/fishbase_23.01' read_only=FALSE bigint=numeric>>
 
 ## Interactive RStudio pane
 

@@ -11,41 +11,6 @@ fb_tables <- function(server = c("fishbase", "sealifebase"),
   meta_df$name
 }
 
-#' Import tables to local store
-#' 
-#' @param server fishbase or sealifebase
-#' @param version release version
-#' @param db A cachable duckdb database connection
-#' @param tables list of tables to import. Default `NULL` will
-#' import all tables. 
-#' @details Downloads and stores tables from the requested version of 
-#' fishbase or sealifebase.  If the table is already downloaded, it will
-#' not be re-downloaded.  Imported tables are added to the active duckdb
-#' connection. Note that there is no need to call this
-#' @export
-#' @examplesIf interactive()
-#' conn <- fb_import()
-fb_import <- function(server = c("fishbase","sealifebase"),
-                      version=get_latest_release(),
-                      db = fb_conn(server, version), 
-                      tables = NULL) {
-  
-  meta <- parse_prov(read_prov(server), version)
-  if(!is.null(tables)) {
-    meta <- meta[meta$name %in% tables,]
-  }
-  
-  missing <- is.na(meta$url)
-  if(any(missing)) {
-    meta$url[missing] <- resolve_ids(meta$id[missing])
-  }
-
-  
-  duckdb_import(meta$url, meta$name, db)
-}
-
-
-
 
 parse_prov_ <- 
   function(prov = read_prov(), version = "latest") {
@@ -63,14 +28,16 @@ parse_prov_ <-
   dataset <- prov[[i]]
   
   meta <- dataset$distribution
+  
+  # The pattern "map("term") |> map_chr(1)" takes first-match if multiples are found
   meta_df <- tibble::tibble(
     name = purrr::map(meta, "name", .default=NA) %>% 
-      purrr::map_chr(getElement,1) %>% tools::file_path_sans_ext(),
+      purrr::map_chr(1) %>% tools::file_path_sans_ext(),
     id =  purrr::map_chr(meta, "id", .default=NA),
     description = purrr::map_chr(meta, "description", .default=NA),
-    format = purrr::map_chr(meta, "encodingFormat", .default=NA),
+    format = purrr::map(meta, "encodingFormat", .default=NA)  |> map_chr(1),
     type =  purrr::map_chr(meta, "type", .default=NA),
-    url =   purrr::map_chr(meta, "contentUrl", .default=NA)
+    url =   purrr::map(meta, "contentUrl", .default=NA) |> map_chr(1)
   )
   meta_df[meta_df$type == "DataDownload",]
 }

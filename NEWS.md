@@ -23,6 +23,11 @@ And constructed with the following guidelines:
 
 For more information on SemVer, please visit http://semver.org/.
 
+v 4.1.2
+-------
+
+metadata parsing adjustment for 23.05 release
+
 v 4.1.1
 -------
 

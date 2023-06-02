@@ -1,6 +1,6 @@
-8f323e651033f292b3265c2a10c6d88f *DESCRIPTION
+27a1c5847bae148deaef749ce3007aaa *DESCRIPTION
 e6ed2dd50fd75533387e89e6d7b95c29 *NAMESPACE
-a66a8e51d56ea38067b80691d2f410e2 *NEWS.md
+40ea41a58801b10a4ce03263398aae1b *NEWS.md
 f02e75643c41308e2d52054bc4e0c62e *R/00-endpoint.R
 ab117c117cbc4f655d6624956c91a837 *R/available_releases.R
 1f0b67b10072cc3f698b5e6696a2a198 *R/brains.R
@@ -9,12 +9,13 @@ ab117c117cbc4f655d6624956c91a837 *R/available_releases.R
 c1c3e1542f2573d07b9eeff4a201d752 *R/distribution.R
 f3a1c29b56aec044a64fb280f00770cd *R/docs.R
 685c2ea82ce7591b8de18670c3bf9fce *R/duckdb-direct.R
+8bf2220034505b82719e5c3367d6a60b *R/fb_import.R
 38325200380a1449ab1052efb3f65dfd *R/fb_tbl.R
 49134b2a878dc6be484e5329df8fba70 *R/fishbase.R
 c956ab54d6f9f3910c80905e6f6518c0 *R/load_taxa.R
 4eb708269442c674fea74136cf0cc7af *R/local_db.R
 8e23d0b3355648429c756cdde175f855 *R/morpho_physio.R
-82a9db52953f6593d22e9dcf0e980ec4 *R/parquet_db.R
+37fa183697178d495f3ce8db1ace0843 *R/parquet_db.R
 1ae8bb5d3a0b2293c5e8809eca5687a3 *R/population_dynamics.R
 dc5a7e1b2b5dca6878e777629d815a90 *R/refs.R
 a01358a0237307554bb8857b90b27d0f *R/reproduction.R
@@ -25,7 +26,7 @@ ff581c0c34af29a4c11033b865e85325 *R/species.R
 01e1853187d2834c9daccc619b0bb457 *R/synonyms.R
 14e907b9f7f1b145f3c4778b45b55bec *R/trophic_ecology.R
 089b72f2401a81ccaeb2b2dd1acd6011 *R/zzz.R
-2266da37c90109628c8b4eaf551df93d *README.md
+b89718b9ac93250f23d075ebab07697a *README.md
 7344a352735d5b881353ff69990d4a6b *data/fields.R
 4a9873182b369c0ad30722f6ad4c16d8 *inst/CITATION
 9fbff2d929ec880f9d47f8d0c61b155f *inst/WORDLIST
@@ -216,8 +217,8 @@ fbff4f45ca4449a4df08ef5bba32bf3f *inst/extdata/zweb_rdecountrycoordinators.csv
 e6eeb94f7d7eacd07235088ff269efc5 *inst/img/edit-sql.png
 8b94703ffff1009244e65dbce12d80fb *inst/img/logo.png
 958b5b7aafc8afdf30c9ba4d825419ec *inst/metadata/species.csv
-c937ff0edf027bfc41e79d3952c8cf9d *inst/prov/fb.prov
-1a4bd45b42b1546b4c576f12ea8fa4ff *inst/prov/slb.prov
+b5faa9dafdf0676a3e00ebb777347ef8 *inst/prov/fb.prov
+7b5ef4b67083f16a4adebfef33a77f94 *inst/prov/slb.prov
 b69312629c6808d9c5752be2057a0474 *man/available_releases.Rd
 ff934e0b1ba91ac7260e5d1fe8b31baf *man/brains.Rd
 2c8e6f124dfc4c1b2cd79ea08a018f92 *man/c_code.Rd
@@ -237,7 +238,7 @@ ec66262325b55df60499e408b452eede *man/ecosystem.Rd
 1f0d3cec2efbd50b0327c5f74a2e73bf *man/estimate.Rd
 b678a5b17b85ea9d99c8776d6743258f *man/faoareas.Rd
 015551e5ffc03b5b0a6cf96165517dc1 *man/fb_conn.Rd
-89426d008f866a1fcb82fe995d0926d9 *man/fb_import.Rd
+247e3e5037b978135bc2825eec7839f3 *man/fb_import.Rd
 210395ea29704b5c10b90e0ecfe2d26d *man/fb_tables.Rd
 c30bece0acda07c8edd03a5b35a45d21 *man/fb_tbl.Rd
 4ae4c889fdc4be6124062e84a531491a *man/fecundity.Rd
