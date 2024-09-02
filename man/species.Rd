@@ -2,33 +2,29 @@
 % Please edit documentation in R/species.R
 \name{species}
 \alias{species}
-\alias{species_info}
 \title{species}
 \usage{
 species(
   species_list = NULL,
   fields = NULL,
-  server = getOption("FISHBASE_API", "fishbase"),
-  version = get_latest_release(),
-  db = default_db(server, version),
+  server = c("fishbase", "sealifebase"),
+  version = "latest",
+  db = NULL,
   ...
 )
 }
 \arguments{
 \item{species_list}{A vector of scientific names (each element as "genus species"). If empty, a table for all fish will be returned.}
 
-\item{fields}{a character vector specifying which fields (columns) should be returned. By default,
-all available columns recognized by the parser are returned.  Mostly for backwards compatibility as users can subset by column later}
+\item{fields}{subset to these columns.  (recommend to omit this and handle manually)}
 
-\item{server}{can be set to either "fishbase" or "sealifebase" to switch between databases. NOTE: it is usually
-easier to leave this as NULL and set the source instead using the environmental variable `FISHBASE_API`, e.g.
-`Sys.setenv(FISHBASE_API="sealifebase")`.}
+\item{server}{Either "fishbase" or "sealifebase".}
 
-\item{version}{a version string for the database, will default to the latest release. see [get_releases()] for details.}
+\item{version}{a version string for the database. See \code{\link[=available_releases]{available_releases()}} for details.}
 
-\item{db}{the}
+\item{db}{database connection, now deprecated.}
 
-\item{...}{unused; for backwards compatibility only}
+\item{...}{additional arguments, currently ignored}
 }
 \value{
 a data.frame with rows for species and columns for the fields returned by the query (FishBase 'species' table)
@@ -37,7 +33,7 @@ a data.frame with rows for species and columns for the fields returned by the qu
 Provide wrapper to work with species lists.
 }
 \details{
-The Species table is the heart of FishBase. This function provides a convenient way to 
+The Species table is the heart of FishBase. This function provides a convenient way to
 query, tidy, and assemble data from that table given an entire list of species.
 For details, see: http://www.fishbase.org/manual/english/fishbasethe_species_table.htm
 
@@ -47,7 +43,6 @@ Species scientific names are defined according to fishbase taxonomy and nomencla
 \dontrun{
 
 species(c("Labroides bicolor", "Bolbometopon muricatum")) 
-species(c("Labroides bicolor", "Bolbometopon muricatum"), fields = species_fields$habitat) 
 
 }
 }

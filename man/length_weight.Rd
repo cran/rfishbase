@@ -8,27 +8,24 @@
 length_weight(
   species_list = NULL,
   fields = NULL,
-  server = getOption("FISHBASE_API", "fishbase"),
-  version = get_latest_release(),
-  db = default_db(server, version),
+  server = c("fishbase", "sealifebase"),
+  version = "latest",
+  db = NULL,
   ...
 )
 }
 \arguments{
 \item{species_list}{A vector of scientific names (each element as "genus species"). If empty, a table for all fish will be returned.}
 
-\item{fields}{a character vector specifying which fields (columns) should be returned. By default,
-all available columns recognized by the parser are returned.  Mostly for backwards compatibility as users can subset by column later}
+\item{fields}{subset to these columns.  (recommend to omit this and handle manually)}
 
-\item{server}{can be set to either "fishbase" or "sealifebase" to switch between databases. NOTE: it is usually
-easier to leave this as NULL and set the source instead using the environmental variable `FISHBASE_API`, e.g.
-`Sys.setenv(FISHBASE_API="sealifebase")`.}
+\item{server}{Either "fishbase" or "sealifebase".}
 
-\item{version}{a version string for the database, will default to the latest release. see [get_releases()] for details.}
+\item{version}{a version string for the database. See \code{\link[=available_releases]{available_releases()}} for details.}
 
-\item{db}{the}
+\item{db}{database connection, now deprecated.}
 
-\item{...}{unused; for backwards compatibility only}
+\item{...}{additional arguments, currently ignored}
 }
 \value{
 a table of length_weight information by species; see details
@@ -39,24 +36,24 @@ length-weight relationships of the form W = a x Lb, pertaining to about over 2,0
 }
 \details{
 See references for official documentation.  From FishBase.org:
-Length-weight relationships are important in fisheries science, 
+Length-weight relationships are important in fisheries science,
 notably to raise length-frequency samples to total catch, or to
-estimate biomass from underwater length observations. 
-The units of length and weight in FishBase are centimeter and gram, respectively. 
-Thus when length-weight relationships are not in cm-g, the intercept 'a' 
+estimate biomass from underwater length observations.
+The units of length and weight in FishBase are centimeter and gram, respectively.
+Thus when length-weight relationships are not in cm-g, the intercept 'a'
 is transformed as follows:
 
 a'(cm, g) = a (mm, g)*10^b
 a'(cm, g) = a (cm, kg)*1000
 a'(cm, g) = a (mm, mg)*10^b/1000
-a'(cm, g) = a (mm, kg)*10^b*1000
+a'(cm, g) = a (mm, kg)\emph{10^b}1000
 
 However, published length-weight relationships are sometimes difficult to use,
 as they may be based on a length measurement type (e.g., fork length) different
 from ones length measurements (expressed e.g., as total length).
 Therefore, to facilitate conversion between length types, an additional
 LENGTH-LENGTH table, #' presented below, was devised which presents linear
-regressions or ratios linking length types (e.g., FL vs. TL). 
+regressions or ratios linking length types (e.g., FL vs. TL).
 We included a calculated field with the weight of a 10 cm fish (which
 should be in the order of 10 g for normal, fusiform shaped fish),
 to allow identification of gross errors, given knowledge of the body

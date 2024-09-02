@@ -4,15 +4,42 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/ropensci/rfishbase/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/rfishbase/actions/workflows/R-CMD-check.yaml)
+[![Coverage
+status](https://codecov.io/gh/ropensci/rfishbase/branch/master/graph/badge.svg)](https://app.codecov.io/github/ropensci/rfishbase?branch=master)
 [![Onboarding](https://badges.ropensci.org/137_status.svg)](https://github.com/ropensci/software-review/issues/137)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rfishbase)](https://cran.r-project.org/package=rfishbase)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rfishbase)](https://github.com/r-hub/cranlogs.app)
 <!-- badges: end -->
 
-Welcome to `rfishbase 4`. This is the fourth rewrite of the original
+Welcome to `rfishbase 5`! This is the fourth rewrite of the original
 `rfishbase` package described in [Boettiger et
 al. (2012)](https://doi.org/10.1111/j.1095-8649.2012.03464.x).
+
+Another streamlined re-design following new abilities for data hosting
+and access. This release relies on a HuggingFace datasets hosting for
+data and metadata hosting in parquet and schema.org.
+
+Data access is simplified to use the simple HuggingFace datasets API
+instead of the previous contentid-based resolution. This allows metadata
+to be defined with directly alongside the data platform independent of
+the R package.
+
+A simplified access protocol relies on `duckdbfs` for direct reads of
+tables. Several functions previously used only to manage connections are
+now deprecated or removed, along with a significant number of
+dependencies.
+
+Core use still centers around the same package API using the `fb_tbl()`
+function, with legacy helper functions for common tables like
+`species()` are still accessible and can still optionally filter by
+species name where appropriate. As before, loading the full tables and
+sub-setting manually is still recommended.
+
+Historic helper functions like `load_taxa()` (combining the taxonomic
+classification from Species, Genus, Family and Order tables),
+`validate_names()`, and `common_to_sci()` and `sci_to_common()` should
+be in working order, all using table-based outputs.
 
 - `rfishbase 1.0` relied on parsing of XML pages served directly from
   Fishbase.org.  
@@ -55,7 +82,7 @@ function:
 fb_tbl("ecosystem")
 ```
 
-    # A tibble: 158,644 × 18
+    # A tibble: 160,334 × 18
        autoctr E_CODE EcosystemRefno Speccode Stockcode Status CurrentPresence
          <int>  <int>          <int>    <int>     <int> <chr>  <chr>          
      1       1      1          50628      549       565 native Present        
@@ -68,7 +95,7 @@ fb_tbl("ecosystem")
      8       9      1          39852      958       974 native Present        
      9      10      1            188     1526      1719 native Present        
     10      11      1            188     1626      1819 native Present        
-    # ℹ 158,634 more rows
+    # ℹ 160,324 more rows
     # ℹ 11 more variables: Abundance <chr>, LifeStage <chr>, Remarks <chr>,
     #   Entered <int>, Dateentered <dttm>, Modified <int>, Datemodified <dttm>,
     #   Expert <int>, Datechecked <dttm>, WebURL <chr>, TS <dttm>
@@ -102,6 +129,90 @@ fb_tbl("species") %>%
     1 Oreochromis niloticus Nile tilapia     60
     2 Salmo trutta          Sea trout       140
 
+In most tables, species are identified by `SpecCode` (as per best
+practices) rather than scientific names. Multiple tables can be joined
+on the `SpecCode` to more fully describe a species.
+
+To filter species by taxonomic names, use the taxa table from
+`load_taxa()`, which provides a joined table of taxonomy from subspecies
+up through Class, along with the corresponding FishBase taxon ids codes.
+Here is an example workflow joining two of the spawing tables and
+filtering to the grouper family, *Epinephelidae*:
+
+``` r
+library(rfishbase)
+library(dplyr)
+
+## Get the whole spawning and spawn agg table, joined together:
+spawn <- left_join(fb_tbl("spawning"),  
+                   fb_tbl("spawnagg"), 
+                   relationship = "many-to-many")
+
+# Filter taxa down to the desired species
+groupers <- load_taxa() |> filter(Family == "Epinephelidae")
+
+## A "filtering join" (inner join) 
+spawn |> inner_join(groupers)
+```
+
+    # A tibble: 227 × 95
+       autoctr StockCode SpecCode SpawningRefNo SourceRef C_Code E_CODE
+         <int>     <int>    <int>         <int>     <int> <chr>   <int>
+     1      18        18       12          5222      3092 528A       NA
+     2      19        18       12         26409      1784 388       145
+     3      20        20       14         26409        NA 192        NA
+     4    9147        20       14        118249    118249 826E        8
+     5      22        21       15          5241      5241 630        NA
+     6      23        21       15          5241      6484 388        NA
+     7      24        21       15          5241      3095 060        NA
+     8      24        21       15          5241      3095 060        NA
+     9      24        21       15          5241      3095 060        NA
+    10      24        21       15          5241      3095 060        NA
+    # ℹ 217 more rows
+    # ℹ 88 more variables: SpawningGround <chr>, Spawningarea <chr>, Jan <dbl>,
+    #   Feb <dbl>, Mar <dbl>, Apr <dbl>, May <dbl>, Jun <dbl>, Jul <dbl>,
+    #   Aug <dbl>, Sep <dbl>, Oct <dbl>, Nov <dbl>, Dec <dbl>, GSI <int>,
+    #   PercentFemales <int>, TempLow <dbl>, TempHigh <dbl>, SexRatiomid <dbl>,
+    #   SexRmodRef <int>, FecundityMin <int>, WeightMin <dbl>,
+    #   LengthFecunMin <dbl>, LengthTypeFecMin <chr>, FecundityRef <int>, …
+
+## Species Names
+
+Always keep in mind that taxonomy is a dynamic concept. Species can be
+split or lumped based on new evidence, and naming authorities can
+disagree over which name is an ‘accepted name’ or ‘synonym’ for any
+given species. When providing your own list of species names, consider
+first checking that those names are “valid” in the current taxonomy
+established by FishBase:
+
+``` r
+validate_names("Abramites ternetzi")
+```
+
+    [1] "Abramites hypselonotus"
+
+`rfishbase` can also provide tables of `synonyms()`, a table of
+`common_names()` in multiple languages, and convert `common_to_sci()` or
+`sci_to_common()`
+
+``` r
+common_to_sci(c("Bicolor cleaner wrasse", "humphead parrotfish"), Language="English")
+```
+
+    # A tibble: 5 × 4
+      Species                ComName                     Language SpecCode
+      <chr>                  <chr>                       <chr>       <int>
+    1 Labroides bicolor      Bicolor cleaner wrasse      English      5650
+    2 Chlorurus cyanescens   Blue humphead parrotfish    English      7909
+    3 Bolbometopon muricatum Green humphead parrotfish   English      5537
+    4 Bolbometopon muricatum Humphead parrotfish         English      5537
+    5 Chlorurus oedema       Uniform humphead parrotfish English      8394
+
+Note that the results are returned as a table, potentially indicating
+other common names for the same species, as well as potentially
+different species that match the provided common name! Please always be
+careful with names, and use unique SpecCodes to refer to unique species.
+
 ## SeaLifeBase
 
 SeaLifeBase.org is maintained by the same organization and largely
@@ -112,26 +223,26 @@ parallels the database structure of Fishbase. As such, almost all
 fb_tbl("species", "sealifebase")
 ```
 
-    # A tibble: 103,290 × 109
+    # A tibble: 102,464 × 111
        SpecCode Genus   Species Author SpeciesRefNo FBname FamCode Subfamily GenCode
           <int> <chr>   <chr>   <chr>         <int> <chr>    <int> <chr>       <int>
-     1    10215 Aatola… schioe… (Mier…         3113 <NA>       521 <NA>         9254
-     2    90398 Aatola… spring… Keabl…         3113 <NA>       521 <NA>         9254
-     3   142030 Abaren… affinis (Ashw…        85340 <NA>       238 <NA>         9255
-     4    38944 Abaren… clapar… (Levi…        85340 <NA>       238 <NA>         9255
-     5    38945 Abaren… pacifi… unspe…        93817 Pacif…     238 <NA>         9255
-     6    38946 Abaren… pusilla unspe…           19 <NA>       238 <NA>         9255
-     7    38948 Abaren… vagabu… unspe…           19 <NA>       238 <NA>         9255
-     8    28719 Abasia  pseudo… Wilso…           19 <NA>       827 <NA>         9256
-     9   130412 Abathe… fissum  (Hoek…        81749 <NA>       771 <NA>         9257
-    10    32026 Abathe… korean… (Hiro…           19 <NA>       771 <NA>         9257
-    # ℹ 103,280 more rows
-    # ℹ 100 more variables: TaxIssue <int>, Remark <chr>, PicPreferredName <chr>,
+     1    57969 Abdopus horrid… (D'Or…        96968 Red S…    1890 Octopodi…   24384
+     2    57836 Abdopus tenebr… (Smit…           19 <NA>      1890 Octopodi…   24384
+     3    57142 Abdopus tongan… (Hoyl…           19 <NA>      1890 Octopodi…   24384
+     4  2381155 Abdopus undula… Huffa…        84307 <NA>      1890 <NA>        24384
+     5    14647 Abebai… troglo… Vande…           19 <NA>       572 <NA>         9260
+     6   165283 Aberom… muranoi Baces…       104101 <NA>       616 <NA>        33537
+     7   140720 Aberra… banyul… Macki…        85340 <NA>       174 <NA>         9262
+     8    40346 Aberra… enigma… unspe…           19 <NA>       174 <NA>         9262
+     9    20199 Aberra… aberra… (Barn…           19 <NA>       308 <NA>         9263
+    10    93706 Aberro… verruc… Kasat…         3696 <NA>       922 <NA>        17969
+    # ℹ 102,454 more rows
+    # ℹ 102 more variables: TaxIssue <int>, Remark <chr>, PicPreferredName <chr>,
     #   PicPreferredNameM <chr>, PicPreferredNameF <chr>, PicPreferredNameJ <chr>,
     #   Source <chr>, AuthorRef <int>, SubGenCode <int>, Fresh <int>, Brack <int>,
     #   Saltwater <int>, Land <int>, BodyShapeI <chr>, DemersPelag <chr>,
-    #   AnaCat <chr>, MigratRef <int>, DepthRangeShallow <int>,
-    #   DepthRangeDeep <int>, DepthRangeRef <int>, DepthRangeComShallow <int>, …
+    #   Amphibious <chr>, AmphibiousRef <int>, AnaCat <chr>, MigratRef <int>,
+    #   DepthRangeShallow <int>, DepthRangeDeep <int>, DepthRangeRef <int>, …
 
 ## Versions and importing all tables
 
@@ -144,97 +255,7 @@ fishbase.org. Check available releases:
 available_releases()
 ```
 
-    [1] "23.05" "23.01" "21.06" "19.04"
-
-## Low-memory environments
-
-If you have very limited RAM (e.g. \<= 1 GB available) it may be helpful
-to use `fishbase` tables in remote form by setting `collect = FALSE`.
-This allows the tables to remain on disk, while the user is still able
-to use almost all `dplyr` functions (see the `dbplyr` vignette). Once
-the table is appropriately subset, the user will need to call
-`dplyr::collect()` to use generic non-dplyr functions, such as plotting
-commands.
-
-``` r
-fb_tbl("occurrence")
-```
-
-    # A tibble: 1,097,303 × 106
-       catnum2 OccurrenceRefNo SpecCode Syncode Stockcode GenusCol       SpeciesCol 
-         <int>           <int>    <int>   <int>     <int> <chr>          <chr>      
-     1   34424           36653      227   22902       241 "Megalops"     "cyprinoid…
-     2   95154           45880       NA      NA        NA ""             ""         
-     3   97606           45880       NA      NA        NA ""             ""         
-     4  100025           45880     5520   25676      5809 "Johnius"      "belangeri…
-     5   98993           45880     5676   16650      5969 "Chromis"      "retrofasc…
-     6   99316           45880      454   23112       468 "Drepane"      "punctata" 
-     7   99676           45880     5388  145485      5647 "Gymnothorax"  "boschi"   
-     8   99843           45880    16813  119925     15264 "Hemiramphus"  "balinensi…
-     9  100607           45880     8288   59635      8601 "Ostracion"    "rhinorhyn…
-    10  101529           45880       NA      NA        NA "Scomberoides" "toloo-par…
-    # ℹ 1,097,293 more rows
-    # ℹ 99 more variables: ColName <chr>, PicName <chr>, CatNum <chr>, URL <chr>,
-    #   Station <chr>, Cruise <chr>, Gazetteer <chr>, LocalityType <chr>,
-    #   WaterDepthMin <dbl>, WaterDepthMax <dbl>, AltitudeMin <int>,
-    #   AltitudeMax <int>, LatitudeDeg <int>, LatitudeMin <dbl>, NorthSouth <chr>,
-    #   LatitudeDec <dbl>, LongitudeDeg <int>, LongitudeMIn <dbl>, EastWest <chr>,
-    #   LongitudeDec <dbl>, Accuracy <chr>, Salinity <chr>, LatitudeTo <dbl>, …
-
-## Local copy
-
-Set the option “rfishbase_local_db” = TRUE to create a local copy,
-otherwise will use a remote copy. Local copy will get better performance
-after initial import, but may experience conflicts when `duckdb` is
-upgraded or when multiple sessions attempt to access the directory.
-Remove the default storage directory (given by `db_dir()`) after
-upgrading duckdb if using a local copy.
-
-``` r
-options("rfishbase_local_db" = TRUE)
-db_disconnect() # close previous remote connection
-
-conn <- fb_conn()
-conn
-```
-
-    <duckdb_connection 9fb20 driver=<duckdb_driver b4670 dbdir='/home/cboettig/.local/share/R/rfishbase/fishbase_23.05' read_only=FALSE bigint=numeric>>
-
-Users can trigger a one-time download of all fishbase tables (or a list
-of desired tables) using `fb_import()`. This will ensure later use of
-any function can operate smoothly even when no internet connection is
-available. Any table already downloaded will not be re-downloaded.
-(Note: `fb_import()` also returns a remote duckdb database connection to
-the tables, for users who prefer to work with the remote data objects.)
-
-``` r
-fb_import()
-```
-
-## Interactive RStudio pane
-
-RStudio users can also browse all fishbase tables interactively in the
-RStudio connection browser by using the function `fisbase_pane()`. Note
-that this function will first download a complete set of the fishbase
-tables.
-
-## Backwards compatibility
-
-`rfishbase` 4.0 tries to maintain as much backwards compatibility as
-possible with rfishbase 3.0. Because parquet preserves native data
-types, some encoded types may differ from earlier versions. As before,
-these are not always the native type – e.g. fishbase encodes some
-boolean (logical TRUE/FALSE) values as integer (-1, 0) or character
-types. Use `as.logical()` to coerce into the appropriate type in that
-case.
-
-Toggling between fishbase and sealifebase servers using an environmental
-variable, `FISHBASE_API`, is now deprecated.
-
-Note that fishbase will store downloaded files by hash in the app
-directory, given by `db_dir()`. The default location can be set by
-configuring the desired path in the environmental variable,
-`FISHBASE_HOME`.
+    [1] "19.04" "21.06" "23.01" "23.05" "24.07"
 
 ------------------------------------------------------------------------
 
