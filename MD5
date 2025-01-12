@@ -1,11 +1,11 @@
-f543e5e9bc9a7a44ae35325c7e640347 *DESCRIPTION
+97611e4274dfb63581c4ca8e6df91c04 *DESCRIPTION
 736f33c7b69a4de26a207ed10c130cb5 *NAMESPACE
-63561143e966e4971651b677bbf24fbb *NEWS.md
+b1d272ad90f8639358dc6fdb85bdbf0a *NEWS.md
 495430de4c5e2d41b39e64c356c960db *R/00-endpoint.R
 1f0b67b10072cc3f698b5e6696a2a198 *R/brains.R
 cb4b47dcf65b9d00c7de1ee431a932c5 *R/common_names.R
 40b5ac0a3ddebc22f422c4b113f4eb27 *R/distribution.R
-16f23857ad96d5c1ee3db7849bb4f38a *R/fb_tbl.R
+30f57079c7f0e8800bd0fa285deebce8 *R/fb_tbl.R
 45b10f3873092f640b2b481f896b522a *R/fishbase.R
 8b4acb980f527c19d5b1daa15ac37ee4 *R/load_taxa.R
 8e23d0b3355648429c756cdde175f855 *R/morpho_physio.R
@@ -16,9 +16,9 @@ f68ce1305f50e5eec4014cc0cfd664de *R/species.R
 0de021963819575756c707e907488e00 *R/synonyms.R
 14e907b9f7f1b145f3c4778b45b55bec *R/trophic_ecology.R
 089b72f2401a81ccaeb2b2dd1acd6011 *R/zzz.R
-93ca1843aca1bd4f1a9a079b3b3d7c0e *README.md
+362b17f46c9e84aa8f6b470800159610 *README.md
 2b052c913cbc571f80bcd8c8827b726c *inst/CITATION
-b1871cb51019e9f3d7dbd7f862d1adf1 *inst/WORDLIST
+cf2bf3f778d2f07a3beab3cca90ff23d *inst/WORDLIST
 6f44f5897a0738e8c89915286bddb906 *inst/examples/fishbase-import-dump.R
 3c9c2bb8e055e8d7144703431e2c9b15 *inst/examples/length-weight.Rmd
 753d9ead9b0b9be3b73b18c1e54ef279 *inst/extdata/abnorm.csv
